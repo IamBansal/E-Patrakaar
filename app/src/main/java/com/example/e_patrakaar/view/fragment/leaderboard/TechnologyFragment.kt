@@ -52,9 +52,9 @@ class TechnologyFragment : Fragment() {
         ) {
             it?.let {
                 val random = (0..50).random()
-                for (i in random..random + 5){
+                for (i in 0 until it.articles.size){
                     val e = it.articles[i]
-                    list.add(Collection(e.title, e.description, e.urlToImage))
+                    list.add(Collection(e.article,e.discription,e.image))
                     setResponseInUI(list)
                 }
                 progressBar.dismiss()
