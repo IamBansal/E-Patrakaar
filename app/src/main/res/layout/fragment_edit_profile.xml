@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivImage"
             android:layout_width="110dp"
             android:layout_height="130dp"
@@ -25,12 +25,15 @@
             android:src="@drawable/my_account_filled"
             tools:ignore="ContentDescription"
             tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="91dp" />
+            tools:layout_editor_absoluteY="91dp"
+            app:shapeAppearanceOverlay="@style/RoundedImageView" />/>
 
         <ImageView
             android:id="@+id/btnEditPic"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_alignBottom="@id/ivImage"
             android:layout_marginStart="-50dp"
             android:layout_marginTop="-70dp"
@@ -52,6 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
+        android:textSize="16sp"
         android:padding="5dp"
         android:background="@drawable/custom_et"
         android:inputType="textPersonName"
@@ -68,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
         android:padding="5dp"
+        android:textSize="16sp"
         android:background="@drawable/custom_et"
         android:inputType="textEmailAddress"
         tools:ignore="Autofill,LabelFor" />
@@ -75,46 +80,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:text="@string/date_of_birth" />
 
-    <LinearLayout
-        android:layout_marginVertical="10dp"
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etDOB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginVertical="10dp"
+        android:padding="5dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:textSize="16sp"
+        android:hint="      MM/DD/YYYY"
+        android:drawableLeft="@drawable/ic_baseline_calendar"
+        android:background="@drawable/custom_et"
+        android:inputType="textEmailAddress"
+        tools:ignore="Autofill,LabelFor" />
 
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="40dp"
-            android:hint="DD"
-            android:padding="5dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_et"
-            android:inputType="date"
-            tools:ignore="Autofill,HardcodedText" />
 
-        <EditText
-            android:id="@+id/etMonth"
-            android:layout_width="40dp"
-            android:hint="MM"
-            android:padding="5dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/custom_et"
-            android:inputType="date"
-            tools:ignore="Autofill,HardcodedText"  />
-
-        <EditText
-            android:id="@+id/etYear"
-            android:layout_width="70dp"
-            android:hint="YYYY"
-            android:padding="5dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_et"
-            android:inputType="date"
-            tools:ignore="Autofill,HardcodedText"  />
-
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -126,28 +112,44 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/etContact"
-        android:layout_width="50dp"
-        android:layout_marginEnd="15dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:padding="5dp"
-        android:hint="+91"
-        android:background="@drawable/custom_et"
-        android:inputType="phone"
-        tools:ignore="Autofill,HardcodedText" />
 
-    <EditText
-        android:id="@+id/etContactCode"
-        android:layout_width="200dp"
-        android:maxLength="10"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:padding="5dp"
-        android:background="@drawable/custom_et"
-        android:inputType="phone"
-        tools:ignore="Autofill" />
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/etContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_showNameCode="false"
+            tools:ccp_contentColor="#fcfdfd"
+            tools:ccp_textSize="20dp" />
+
+
+        <EditText
+            android:id="@+id/etContactCode"
+            android:layout_width="150dp"
+            android:maxLength="10"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:background="@drawable/custom_et"
+            android:inputType="phone"
+            tools:ignore="Autofill" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="5dp"
+            android:layout_marginVertical="10dp"
+            android:padding="5dp"
+            android:text="Verify"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 
