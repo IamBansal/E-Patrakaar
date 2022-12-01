@@ -143,10 +143,13 @@ class EditProfileFragment : Fragment() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-
                     val user = task.result?.user
-                    Toast.makeText(this.requireContext(),"Authenticate Successfully",Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Authenticate Successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    sendBackToEditProfile()
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -155,6 +158,10 @@ class EditProfileFragment : Fragment() {
                     }
                 }
             }
+    }
+    private fun sendBackToEditProfile(){
+        // Now you have to write the code for going back to EditProfile
+
     }
 
    private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -284,9 +291,4 @@ class EditProfileFragment : Fragment() {
        }
 
     }
-
-
-
-
-
 }

@@ -13,15 +13,12 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide.init
-import com.example.e_patrakaar.databinding.ActivityMainBinding
+import android.widget.Toast
 import com.example.e_patrakaar.databinding.ActivityOtpBinding
-import com.example.e_patrakaar.view.fragment.ui.EditProfileFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.e_patrakaar.utils.Constants
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -35,8 +32,10 @@ import java.util.concurrent.TimeUnit
 
 class OtpActivity : AppCompatActivity() {
 
-
+    lateinit var binding : ActivityOtpBinding 
     private lateinit var OTP :String
+    private lateinit var verificationBtn :Button
+    private lateinit var resendBtn : Button
     private lateinit var resendingToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var phoneNumber: String
     private lateinit var inpitOTP1 : EditText
@@ -51,11 +50,110 @@ class OtpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp)
 
-        OTP = intent.getStringExtra("OTP").toString()
-        resendingToken = intent.getParcelableExtra("resendToken")!!
-        phoneNumber = intent.getStringExtra("phonNumber")!!
+        //  Fetching data from fragment to activity
+//        OTP = intent.getStringExtra("OTP").toString()
+//        resendingToken = intent.getParcelableExtra("resendToken")!!
+//        phoneNumber = intent.getStringExtra("phonNumber")!!
 
         init()
+        addTextChangeListener()
+        resendBtn.setOnClickListener {
+            resendVerificationCode()
+        }
+
+        verificationBtn.setOnClickListener {
+            val typeOTP =(inpitOTP1.text.toString()+inpitOTP2.text.toString()+inpitOTP3.text.toString()+inpitOTP4.text.toString()+
+                    inpitOTP5.text.toString()+inpitOTP6.text.toString())
+
+            if (typeOTP.isNotEmpty()){
+                if (typeOTP.length==6){
+                    val credential : PhoneAuthCredential = PhoneAuthProvider.getCredential(
+                        OTP, typeOTP
+                    )
+                    signInWithPhoneAuthCredential(credential)
+                }else{
+
+                    Toast.makeText(this,"Please Enter Correct OTP", Toast.LENGTH_SHORT).show()
+
+                }
+
+            }else{
+                Toast.makeText(this,"Please Enter OTP", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun resendVerificationCode(){
+        val options = PhoneAuthOptions.newBuilder(auth)
+            .setPhoneNumber(phoneNumber)       // Phone number to verify
+            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+            .setActivity(this)                 // Activity (for callback binding)
+            .setCallbacks(callbacks)
+            .setForceResendingToken(resendingToken)// OnVerificationStateChangedCallbacks
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
+    }
+   private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            // This callback will be invoked in two situations:
+            // 1 - Instant verification. In some cases the phone number can be instantly
+            //     verified without needing to send or enter a verification code.
+            // 2 - Auto-retrieval. On some devices Google Play services can automatically
+            //     detect the incoming verification SMS and perform verification without
+            //     user action.
+            signInWithPhoneAuthCredential(credential)
+        }
+
+        override fun onVerificationFailed(e: FirebaseException) {
+            // This callback is invoked in an invalid request for verification is made,
+            // for instance if the the phone number format is not valid.
+
+            if (e is FirebaseAuthInvalidCredentialsException) {
+                // Invalid request
+            } else if (e is FirebaseTooManyRequestsException) {
+                // The SMS quota for the project has been exceeded
+            }
+
+            // Show a message and update the UI
+        }
+
+        override fun onCodeSent(
+            verificationId: String,
+            token: PhoneAuthProvider.ForceResendingToken
+        ) {
+            // The SMS verification code has been sent to the provided phone number, we
+            // now need to ask the user to enter the code and then construct a credential
+            // by combining the code with a verification ID.
+            OTP = verificationId
+            resendingToken = token
+        }
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(Constants.TAG, "signInWithCredential:success")
+                    val user = task.result?.user
+                    Toast.makeText(
+                        this,
+                        "Authenticate Successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    sendBackToEditProfile()
+                } else {
+                    // Sign in failed, display a message and update the UI
+                    Log.w(Constants.TAG, "signInWithCredential:failure", task.exception)
+                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                        // The verification code entered was invalid
+                    }
+                }
+            }
+    }
+    private fun sendBackToEditProfile(){
+        // Now you have to write the code for going back to EditProfile
+
     }
     private fun addTextChangeListener(){
         inpitOTP1.addTextChangedListener(EditTextWatcher(inpitOTP1))
