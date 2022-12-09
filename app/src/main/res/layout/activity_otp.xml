@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:id="@+id/fragment_container_view_tag"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="430dp"
+        android:layout_height="407dp"
+        android:src="@drawable/njik"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+
+        <EditText
+            android:id="@+id/otpEditText1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+             />
+
+        <EditText
+            android:id="@+id/otpEditText2"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/otpEditText3"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:inputType="number"
+            android:gravity="center"
+           />
+        <EditText
+            android:id="@+id/otpEditText4"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:inputType="number"
+            android:gravity="center"
+            />
+
+
+        <EditText
+            android:id="@+id/otpEditText5"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:inputType="number"
+            android:gravity="center"
+          />
+
+
+        <EditText
+            android:id="@+id/otpEditText6"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:inputType="number"
+            android:gravity="center"
+            />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:padding="4dp"
+        android:text="Enter 6-digit code"
+        android:textSize="16sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/verifcationBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:padding="5dp"
+        android:text="Verify Code"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText"
+        tools:layout_editor_absoluteY="504dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/resendBtn"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_gravity="end"
+        android:padding="5dp"
+        android:text="Resend Code"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="10dp"
+        tools:ignore="HardcodedText" />
+
+
+</LinearLayout>
