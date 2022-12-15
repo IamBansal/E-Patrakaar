@@ -1,7 +1,17 @@
 package com.example.e_patrakaar.view.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -16,13 +26,38 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    val CHANNEL_ID = "channelID"
+    val CHANNEL_NAME = "channelName"
+    val NOTIFIACTION_ID = 0
+
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        createNotificationChannel()
+
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(intent)
+            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("new Notification")
+            .setContentText("this is the content text")
+            .setSmallIcon(R.drawable.notification_selector)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        val notificationManager = NotificationManagerCompat.from(this)
+
+        binding.navView.setOnClickListener {
+            notificationManager.notify(NOTIFIACTION_ID,notification)
+        }
 
         setSupportActionBar(binding.toolbar)
 
@@ -46,13 +81,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent.hasExtra(Constants.NOTIFICATION_ID)){
-            val notificationId = intent.getIntExtra(Constants.NOTIFICATION_ID, 0)
+            intent.getIntExtra(Constants.NOTIFICATION_ID, 0)
             binding.navView.selectedItemId = R.id.navigation_notification
 
         }
 
         startWork()
 
+    }
+
+    fun createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val Channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_DEFAULT).apply {
+                lightColor = Color.GREEN
+                enableLights(true)
+            }
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(Channel)
+        }
     }
 
     private fun createConstraints() = Constraints.Builder()
