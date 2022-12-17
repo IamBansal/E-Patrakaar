@@ -28,14 +28,14 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:letterSpacing="0.06"
-            android:text="Latest Technology"
+            android:text="Latest Health"
             android:textColor="?android:textColorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLatestTechnology"
+            android:id="@+id/rvLatestHealth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

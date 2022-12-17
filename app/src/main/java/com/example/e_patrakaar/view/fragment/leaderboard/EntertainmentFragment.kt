@@ -7,55 +7,59 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.e_patrakaar.databinding.FragmentEntertainmentBinding
 import com.example.e_patrakaar.model.Collection
+import com.example.e_patrakaar.view.OnItemClickListener
+import com.example.e_patrakaar.view.WrapContentStaggeredGridLayoutManager
 import com.example.e_patrakaar.view.adapter.CustomNewsAdapter
 import com.example.e_patrakaar.view.adapter.LatestTechAdapter
+import com.example.e_patrakaar.view.fragment.main.LeaderboardFragmentDirections
 import com.example.e_patrakaar.viewmodel.RandomNewsViewModel
 
-class EntertainmentFragment : Fragment() {
+class EntertainmentFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentEntertainmentBinding
     private lateinit var list: ArrayList<Collection>
-
     private lateinit var randomNewsViewModel: RandomNewsViewModel
     private lateinit var progressBar: ProgressDialog
+    private lateinit var adapterEnterTop: CustomNewsAdapter
+    private lateinit var adapterLatestEntertainment: LatestTechAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEntertainmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        list = ArrayList()
+        setResponseInUI(list)
         randomNewsViewModel = ViewModelProvider(this)[RandomNewsViewModel::class.java]
         randomNewsViewModel.getNewsFromAPI()
         progressBar = ProgressDialog(requireActivity())
         progressBar.setMessage("Loading news..")
         progressBar.show()
 
-        list = ArrayList()
         randomNewsViewModelObserver()
-
     }
 
     private fun randomNewsViewModelObserver() {
-
         randomNewsViewModel.randomNewsResponse.observe(
             viewLifecycleOwner
         ) {
             it?.let {
                 val random = (0..50).random()
-                for (i in random..random + 5){
+                for (i in random..random + 5) {
                     val e = it.articles[i]
                     list.add(Collection(e.title, e.description, e.urlToImage))
-                    setResponseInUI(list)
+                    adapterEnterTop.setList(list)
+                    adapterLatestEntertainment.setData(list)
                 }
                 progressBar.dismiss()
             }
@@ -63,31 +67,48 @@ class EntertainmentFragment : Fragment() {
 
         randomNewsViewModel.randomNewsLoadingError.observe(
             viewLifecycleOwner
-        ){
+        ) {
             it?.let {
 
             }
         }
+
         randomNewsViewModel.loadRandomNews.observe(
             viewLifecycleOwner
-        ){
+        ) {
             it?.let {
-                if (it){
+                if (it) {
                     progressBar.show()
                 } else {
                     progressBar.dismiss()
                 }
             }
         }
-
     }
 
     private fun setResponseInUI(list: ArrayList<Collection>) {
-        binding.rvEnterTop.layoutManager = StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
-        binding.rvEnterTop.adapter = CustomNewsAdapter(this@EntertainmentFragment, list)
+        binding.rvEnterTop.layoutManager =
+            WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
+        adapterEnterTop = CustomNewsAdapter(this@EntertainmentFragment, list, this)
+        binding.rvEnterTop.adapter = adapterEnterTop
+        binding.rvLatestEnter.layoutManager =
+            WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
+        adapterLatestEntertainment = LatestTechAdapter(this@EntertainmentFragment, list, this)
+        binding.rvLatestEnter.adapter = adapterLatestEntertainment
+    }
 
-        binding.rvLatestEnter.layoutManager = StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
-        binding.rvLatestEnter.adapter = LatestTechAdapter(this@EntertainmentFragment, list)
+    private fun newsDetails(news: Collection) {
+        findNavController().navigate(
+            LeaderboardFragmentDirections.actionNavigationLeaderboardToNavigationExpandedNews(
+                news
+            )
+        )
+    }
 
+    override fun onItemClick(news: Collection) {
+        newsDetails(news)
+    }
+
+    override fun onItemClickReturnViewHolder(viewHolder: RecyclerView.ViewHolder) {
     }
 }

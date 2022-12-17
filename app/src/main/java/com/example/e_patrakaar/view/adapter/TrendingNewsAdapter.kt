@@ -6,15 +6,20 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.e_patrakaar.databinding.CustomTrendingItemBinding
 import com.example.e_patrakaar.model.Collection
-import com.example.e_patrakaar.view.fragment.leaderboard.SportsFragment
-import com.example.e_patrakaar.view.fragment.main.HomeFragment
+import com.example.e_patrakaar.view.OnItemClickListener
 
-class TrendingNewsAdapter(private val fragment: Fragment, private val list: List<Collection>) :
+class TrendingNewsAdapter(
+    private val fragment: Fragment,
+    private val list: List<Collection>,
+    private val clickListener: OnItemClickListener
+) :
     RecyclerView.Adapter<TrendingNewsAdapter.ViewHolder>() {
+    private val newsList = ArrayList<Collection>()
 
     class ViewHolder(view: CustomTrendingItemBinding) : RecyclerView.ViewHolder(view.root) {
         val text: TextView = view.textView
@@ -36,14 +41,7 @@ class TrendingNewsAdapter(private val fragment: Fragment, private val list: List
         val news = list[position]
         holder.text.text = news.title
         holder.card.setOnClickListener {
-            when (fragment) {
-                is HomeFragment -> {
-                    fragment.newsDetails(news)
-                }
-                is SportsFragment -> {
-                    fragment.newsDetails(news)
-                }
-            }
+            clickListener.onItemClick(news)
         }
         Glide.with(fragment).load(news.image).centerCrop().into(holder.image)
     }
@@ -52,4 +50,11 @@ class TrendingNewsAdapter(private val fragment: Fragment, private val list: List
         return list.size
     }
 
+    fun setData(list: ArrayList<Collection>) {
+        val diffCallBack = NewsCallBack(newsList, list)
+        val diffNews = DiffUtil.calculateDiff(diffCallBack)
+        newsList.clear()
+        newsList.addAll(list)
+        diffNews.dispatchUpdatesTo(this)
+    }
 }

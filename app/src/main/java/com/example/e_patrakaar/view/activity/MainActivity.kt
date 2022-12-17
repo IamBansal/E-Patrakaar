@@ -113,7 +113,6 @@ class MainActivity : AppCompatActivity() {
             createConstraints()
         ).build()
 
-
     private fun startWork(){
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork("News Notify Work",

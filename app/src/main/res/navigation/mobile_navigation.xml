@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_edit_profile"
             app:destination="@id/navigation_edit_profile" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_expanded_news"
+            app:destination="@id/navigation_expanded_news" />
     </fragment>
 
     <fragment
@@ -59,5 +62,8 @@
         <argument
             android:name="Expanded_news_home"
             app:argType="com.example.e_patrakaar.model.Collection" />
+        <action
+            android:id="@+id/action_navigation_expanded_news_self"
+            app:destination="@id/navigation_expanded_news" />
     </fragment>
 </navigation>

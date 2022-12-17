@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:elevation="-10dp"
-    android:orientation="vertical"
     android:id="@+id/card"
-    android:layout_margin="8dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:ignore="UseCompoundDrawables">
+    android:layout_margin="8dp"
+    android:elevation="-10dp">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:src="@drawable/like_outline"
         android:layout_height="120dp"
+        android:src="@drawable/like_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
-        android:maxLines="1"
-        android:textSize="14sp"
-        android:layout_marginHorizontal="5dp"
-        tools:text="Random it is you get that"
-        android:layout_marginTop="6dp"
-        android:layout_gravity="bottom"
-        android:textColor="?android:textColorPrimary"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="Random it is you get that" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:text="@string/custom_time"
+        android:textSize="8sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        tools:ignore="RelativeOverlap,SmallSp" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_alignParentStart="true"
-            android:text="@string/custom_time"
-            android:layout_centerInParent="true"
-            android:textSize="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="RelativeOverlap" />
-
-        <ImageView
-            android:id="@+id/more"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_baseline_more_vert_24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="ContentDescription" />
-
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="5dp" />
+        app:layout_constraintTop_toBottomOf="@id/more" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
