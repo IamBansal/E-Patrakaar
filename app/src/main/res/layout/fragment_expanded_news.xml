@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="15dp"
     android:scrollbars="none"
     tools:context=".view.fragment.ui.ExpandedNewsFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Star World Hospital brings in Da Vinci Robotics to ensure precision surgery."
             android:textColor="?android:textColorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Star World Hospital brings in Da Vinci Robotics to ensure precision surgery."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText" />
 
         <ImageView
@@ -29,72 +32,100 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:src="@drawable/archive"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/description"
-            android:text="@string/random_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="14dp"
+            android:text="@string/random_text"
             android:textColor="?android:textColorPrimary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" />
+
+        <Button
+            android:id="@+id/followCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="24dp"
+            android:drawableEnd="@drawable/add_3"
+            android:text="@string/follow"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/category"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/followCategory" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/time"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/category"
+            app:layout_constraintStart_toEndOf="@id/category"
+            app:layout_constraintTop_toTopOf="@id/category" />
+
+        <ImageView
+            android:id="@+id/likeNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/like_outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/dislikeNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/followCategory"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/likeNews"
+            android:src="@drawable/dislike_outline"
+            app:layout_constraintBottom_toBottomOf="@id/likeNews"
+            app:layout_constraintStart_toEndOf="@id/likeNews"
+            app:layout_constraintTop_toTopOf="@id/likeNews"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvSimilarNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Similar News"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/likeNews"
+            tools:ignore="HardCodedText" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSimilarNews"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSimilarNews" />
 
-        <RelativeLayout
-            android:layout_marginVertical="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/category"
-                android:textSize="9dp"
-                android:text="@string/category"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/time"
-                android:text="@string/time"
-                android:textSize="9sp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/followCategory"
-                android:text="@string/follow"
-                android:textSize="12sp"
-                android:layout_alignParentEnd="true"
-                android:textAllCaps="false"
-                android:drawableEnd="@drawable/add_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="RelativeOverlap" />
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:id="@+id/likeNews"
-                android:layout_below="@id/followCategory"
-                android:src="@drawable/like_outline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:id="@+id/dislikeNews"
-                android:layout_below="@id/followCategory"
-                android:layout_toEndOf="@id/likeNews"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/dislike_outline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="ContentDescription" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
