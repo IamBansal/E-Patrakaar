@@ -36,28 +36,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         //Mine Notification Code 
-if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //3
-            val channel = NotificationChannel(
-                "My Notification",
-                "My Notification",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
-            //Notification code
-            //1 Notification builder to create
-            val builder = NotificationCompat.Builder(this@MainActivity, "My Notification")
-            builder.setContentTitle(" Hello E Patrakar App: ")
-            builder.setContentText("This a perfect app for viewing news")
-            builder.setSmallIcon(R.drawable.news)
-            builder.setAutoCancel(true)
-            //2 Notification Manager Compact we can tell the user about the notifiaction
-            //2 Notification Manager Compact we can tell the user about the notifiaction
-            val managerCompat = NotificationManagerCompat.from(this@MainActivity)
-            managerCompat.notify(1, builder.build())
-        }
 
         createNotificationChannel()
 
