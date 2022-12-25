@@ -17,11 +17,13 @@ import com.example.e_patrakaar.view.OnItemClickListener
 import com.example.e_patrakaar.view.WrapContentStaggeredGridLayoutManager
 import com.example.e_patrakaar.view.adapter.*
 import com.example.e_patrakaar.viewmodel.RandomNewsViewModel
+import kotlin.math.min
 
 class HomeFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var list: ArrayList<Collection>
+    private val maxFiveTrendNewsList = ArrayList<Collection>()
     private lateinit var randomNewsViewModel: RandomNewsViewModel
     private lateinit var progressBar: ProgressDialog
     private lateinit var adapterTrending: TrendingNewsAdapter
@@ -64,21 +66,26 @@ class HomeFragment : Fragment(), OnItemClickListener {
         listChannel.add(Collection("", "", R.drawable.twelve))
 
         binding.rvTrending.layoutManager =
-            WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapterTrending = TrendingNewsAdapter(this@HomeFragment, list, this)
         binding.rvTrending.adapter = adapterTrending
+        binding.trendIndicator.attachToRecyclerView(binding.rvTrending)
+
         binding.rvUpdates.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
         adapterUpdates = ViralAdapter(this@HomeFragment, list, this)
         binding.rvUpdates.adapter = adapterUpdates
+
         binding.rvRecommended.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
         adapterRecommended = RecommendedAdapter(this@HomeFragment, list)
         binding.rvRecommended.adapter = adapterRecommended
+
         binding.rvChannels.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
         adapterChannel = ChannelAdapter(this@HomeFragment, listChannel)
         binding.rvChannels.adapter = adapterChannel
+
         binding.rvSuggestedNews.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
         adapterSuggestedNews = CustomNewsAdapter(this, list, this)
@@ -104,18 +111,20 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     for (i in random..random + 10) {
                         val e = it.articles[i]
                         list.add(Collection(e.title, e.description, e.urlToImage))
-                        setResponseInUI(list)
                     }
                 } else {
                     for (i in random..random + 1) {
                         val e = it.articles[i]
                         list.add(Collection(e.title, e.description, e.urlToImage))
-                        adapterTrending.setData(list)
-                        adapterRecommended.setData(list)
-                        adapterSuggestedNews.setList(list)
-                        adapterUpdates.setData(list)
                     }
                 }
+                for (i in 0 until min(5, list.size)) {
+                    maxFiveTrendNewsList.add(list.get(i))
+                }
+                adapterTrending.setData(maxFiveTrendNewsList)
+                adapterRecommended.setData(list)
+                adapterSuggestedNews.setList(list)
+                adapterUpdates.setData(list)
                 progressBar.dismiss()
             }
         }

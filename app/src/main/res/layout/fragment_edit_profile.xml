@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginHorizontal="15dp"
+    android:orientation="vertical"
     tools:context=".view.fragment.ui.EditProfileFragment">
 
     <RelativeLayout
-        android:layout_margin="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_margin="15dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivImage"
+            android:id="@+id/ivProfile"
             android:layout_width="110dp"
             android:layout_height="130dp"
             android:layout_alignParentTop="true"
@@ -23,42 +23,42 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
             android:src="@drawable/my_account_filled"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
             tools:ignore="ContentDescription"
             tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="91dp"
-            app:shapeAppearanceOverlay="@style/RoundedImageView" />/>
+            tools:layout_editor_absoluteY="91dp" />
 
         <ImageView
             android:id="@+id/btnEditPic"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_alignBottom="@id/ivImage"
+            android:layout_alignBottom="@id/ivProfile"
             android:layout_marginStart="-50dp"
             android:layout_marginTop="-70dp"
-            android:layout_toEndOf="@id/ivImage"
+            android:layout_toEndOf="@id/ivProfile"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/add_button"
             tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
     <TextView
-        android:textColor="?android:textColorPrimary"
-        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name" />
+        android:text="@string/name"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:textSize="16sp"
-        android:padding="5dp"
         android:background="@drawable/custom_et"
         android:inputType="textPersonName"
+        android:padding="5dp"
+        android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
     <TextView
@@ -71,10 +71,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:padding="5dp"
-        android:textSize="16sp"
         android:background="@drawable/custom_et"
         android:inputType="textEmailAddress"
+        android:padding="5dp"
+        android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
     <TextView
@@ -89,17 +89,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:padding="5dp"
-        android:clickable="true"
-        android:focusable="false"
-        android:cursorVisible="false"
-        android:textSize="16sp"
-        android:hint="      MM/DD/YYYY"
-        android:drawableLeft="@drawable/ic_baseline_calendar"
         android:background="@drawable/custom_et"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:drawableLeft="@drawable/ic_baseline_calendar"
+        android:focusable="false"
+        android:hint="      MM/DD/YYYY"
         android:inputType="textEmailAddress"
+        android:padding="5dp"
+        android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
-
 
 
     <TextView
@@ -110,7 +109,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
 
         <com.hbb20.CountryCodePicker
@@ -128,13 +127,13 @@
         <EditText
             android:id="@+id/etContactCode"
             android:layout_width="150dp"
-            android:maxLength="10"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:padding="5dp"
-            android:textSize="16sp"
             android:background="@drawable/custom_et"
             android:inputType="phone"
+            android:maxLength="10"
+            android:padding="5dp"
+            android:textSize="16sp"
             tools:ignore="Autofill" />
 
         <com.google.android.material.button.MaterialButton
@@ -142,8 +141,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginStart="5dp"
             android:layout_marginVertical="10dp"
+            android:layout_marginStart="5dp"
             android:padding="5dp"
             android:text="Verify"
             android:textAllCaps="false"

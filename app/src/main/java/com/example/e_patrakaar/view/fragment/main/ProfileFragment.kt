@@ -49,7 +49,7 @@ class ProfileFragment : Fragment(), OnItemClickListener {
         randomNewsViewModel = ViewModelProvider(this)[RandomNewsViewModel::class.java]
         randomNewsViewModel.getNewsFromAPI()
 
-        Glide.with(requireActivity()).load(R.drawable.pic).circleCrop().into(binding.ivImage)
+        Glide.with(requireActivity()).load(R.drawable.pic).circleCrop().into(binding.ivProfile)
 
         list = listOf(
             Collection("Politics", "150 saved posts", R.drawable.protwo),
@@ -80,11 +80,12 @@ class ProfileFragment : Fragment(), OnItemClickListener {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        (activity as MainActivity).supportActionBar!!.title = binding.tvName.text
+        (activity as MainActivity).supportActionBar!!.title = binding.tvUsername.text
 
         binding.btnEditInfo.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_edit_profile)
         }
+
     }
 
     //Changes for database
@@ -199,7 +200,6 @@ class ProfileFragment : Fragment(), OnItemClickListener {
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
         viewHolder.rvSavedNews.adapter = adapterSavedNews
         viewHolder.rvSavedNews.visibility = View.VISIBLE
-        //adapterSavedNews.notifyItemChanged(viewHolder.adapterPosition)
         progressBar.dismiss()
     }
 
