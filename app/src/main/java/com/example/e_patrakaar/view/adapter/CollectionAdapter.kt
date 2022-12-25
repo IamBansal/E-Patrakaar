@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,6 +25,7 @@ class CollectionAdapter(
         val image: ImageView = view.image
         val text2: TextView = view.textView2
         val rvSavedNews: RecyclerView = view.rvSavedNews
+        val card: ConstraintLayout = view.card
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,7 +44,7 @@ class CollectionAdapter(
         Glide.with(fragment).load(collection.image).centerCrop().placeholder(R.drawable.add_2)
             .into(holder.image)
         holder.text2.text = collection.description
-        holder.image.setOnClickListener {
+        holder.card.setOnClickListener {
             clickListener.onItemClickReturnViewHolder(holder)
         }
     }
