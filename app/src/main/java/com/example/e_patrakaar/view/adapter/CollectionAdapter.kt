@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.e_patrakaar.R
@@ -15,7 +16,7 @@ import com.example.e_patrakaar.view.OnItemClickListener
 
 class CollectionAdapter(
     private val fragment: Fragment,
-    private val list: List<Collection>,
+    private val list: ArrayList<Collection>,
     private val clickListener: OnItemClickListener
 ) :
     RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
@@ -51,5 +52,13 @@ class CollectionAdapter(
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun setData(newList: MutableList<Collection>) {
+        val diffCallBack = NewsCallBack(list, newList as ArrayList<Collection>)
+        val diffNews = DiffUtil.calculateDiff(diffCallBack)
+        list.clear()
+        list.addAll(newList)
+        diffNews.dispatchUpdatesTo(this)
     }
 }
