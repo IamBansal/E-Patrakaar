@@ -16,7 +16,7 @@ import com.example.e_patrakaar.view.OnItemClickListener
 
 class CollectionAdapter(
     private val fragment: Fragment,
-    private val list: ArrayList<Collection>,
+    private val list: MutableList<Collection>,
     private val clickListener: OnItemClickListener
 ) :
     RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
@@ -55,10 +55,12 @@ class CollectionAdapter(
     }
 
     fun setData(newList: MutableList<Collection>) {
-        val diffCallBack = NewsCallBack(list, newList as ArrayList<Collection>)
+        val list1  =  ArrayList(list)
+        val list2 =  ArrayList(newList)
+        val diffCallBack = NewsCallBack(list1, list2)
         val diffNews = DiffUtil.calculateDiff(diffCallBack)
         list.clear()
-        list.addAll(newList)
+        list.addAll(list2)
         diffNews.dispatchUpdatesTo(this)
     }
 }
