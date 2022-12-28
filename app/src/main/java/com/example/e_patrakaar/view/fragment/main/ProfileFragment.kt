@@ -67,7 +67,7 @@ class ProfileFragment : Fragment(), OnItemClickListener {
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
         collectionAdapter = CollectionAdapter(
             this@ProfileFragment,
-            list as ArrayList<Collection>, this
+            list, this
         )
         binding.rvSaved.adapter = collectionAdapter
 
