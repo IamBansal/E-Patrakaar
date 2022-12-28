@@ -3,7 +3,7 @@ package com.example.e_patrakaar.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.e_patrakaar.database.entity.RandomNews
+import com.example.e_patrakaar.database.entity.RandomNewsAPI
 import com.example.e_patrakaar.database.network.NewsAPIService
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -17,7 +17,7 @@ class RandomNewsViewModel: ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     val loadRandomNews = MutableLiveData<Boolean>()
-    val randomNewsResponse = MutableLiveData<RandomNews.News>()
+    val randomNewsResponse = MutableLiveData<RandomNewsAPI>()
     val randomNewsLoadingError = MutableLiveData<Boolean>()
 
     fun getNewsFromAPI(){
@@ -26,17 +26,18 @@ class RandomNewsViewModel: ViewModel() {
             randomNewsAPIService.getRandomNews()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object :DisposableSingleObserver<RandomNews.News>(){
-                    override fun onSuccess(t: RandomNews.News) {
+                .subscribeWith(object :DisposableSingleObserver<RandomNewsAPI>(){
+                    override fun onSuccess(t: RandomNewsAPI) {
                         loadRandomNews.value = true
                         randomNewsResponse.value = t
+                        Log.d("check fine", t.articles[0].discription)
                         randomNewsLoadingError.value = false
                     }
 
                     override fun onError(e: Throwable) {
                         loadRandomNews.value = false
                         randomNewsLoadingError.value = true
-                        Log.d("error", e.toString())
+                        Log.d("errorInFetchingDetails", e.toString())
                     }
 
                 })

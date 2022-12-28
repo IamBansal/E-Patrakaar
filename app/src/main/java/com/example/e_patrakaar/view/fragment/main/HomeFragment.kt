@@ -125,6 +125,19 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 adapterRecommended.setData(list)
                 adapterSuggestedNews.setList(list)
                 adapterUpdates.setData(list)
+//                if (it.articles.size >= random + 10){
+                for (i in 0 until it.articles.size){
+                        val e = it.articles[i]
+                        list.add(Collection(e.article,e.discription,e.image))
+                        setResponseInUI(list)
+                    }
+//                } else {
+//                    for (i in random..random + 1){
+////                        val e = it.articles[i]
+//                        list.add(Collection(e.title, e.description, e.urlToImage))
+//                        setResponseInUI(list)
+//                    }
+//                }
                 progressBar.dismiss()
             }
         }

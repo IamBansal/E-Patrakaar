@@ -61,6 +61,10 @@ class HealthFragment : Fragment(), OnItemClickListener {
                     list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterHealthTop.setList(list)
                     adapterLatestHealth.setData(list)
+                for (i in 0 until it.articles.size){
+                    val e = it.articles[i]
+                    list.add(Collection(e.article,e.discription,e.image))
+                    setResponseInUI(list)
                 }
                 progressBar.dismiss()
             }
