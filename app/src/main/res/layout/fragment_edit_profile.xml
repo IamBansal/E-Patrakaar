@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginHorizontal="15dp"
+    android:orientation="vertical"
     tools:context=".view.fragment.ui.EditProfileFragment">
 
     <RelativeLayout
-        android:layout_margin="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_margin="15dp">
 
-        <ImageView
-            android:id="@+id/ivImage"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfile"
             android:layout_width="110dp"
             android:layout_height="130dp"
             android:layout_alignParentTop="true"
@@ -23,6 +23,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
             android:src="@drawable/my_account_filled"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
             tools:ignore="ContentDescription"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="91dp" />
@@ -31,30 +32,33 @@
             android:id="@+id/btnEditPic"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignBottom="@id/ivImage"
+            android:layout_alignBottom="@id/ivProfile"
             android:layout_marginStart="-50dp"
             android:layout_marginTop="-70dp"
-            android:layout_toEndOf="@id/ivImage"
+            android:layout_toEndOf="@id/ivProfile"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/add_button"
             tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
     <TextView
-        android:textColor="?android:textColorPrimary"
-        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name" />
+        android:text="@string/name"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:padding="5dp"
         android:background="@drawable/custom_et"
         android:inputType="textPersonName"
+        android:padding="5dp"
+        android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
     <TextView
@@ -67,54 +71,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:padding="5dp"
         android:background="@drawable/custom_et"
         android:inputType="textEmailAddress"
+        android:padding="5dp"
+        android:textSize="16sp"
         tools:ignore="Autofill,LabelFor" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:text="@string/date_of_birth" />
 
-    <LinearLayout
-        android:layout_marginVertical="10dp"
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etDOB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/custom_et"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:drawableLeft="@drawable/ic_baseline_calendar"
+        android:focusable="false"
+        android:hint="      MM/DD/YYYY"
+        android:inputType="textEmailAddress"
+        android:padding="5dp"
+        android:textSize="16sp"
+        tools:ignore="Autofill,LabelFor" />
 
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="40dp"
-            android:hint="DD"
-            android:padding="5dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_et"
-            android:inputType="date"
-            tools:ignore="Autofill,HardcodedText" />
-
-        <EditText
-            android:id="@+id/etMonth"
-            android:layout_width="40dp"
-            android:hint="MM"
-            android:padding="5dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/custom_et"
-            android:inputType="date"
-            tools:ignore="Autofill,HardcodedText"  />
-
-        <EditText
-            android:id="@+id/etYear"
-            android:layout_width="70dp"
-            android:hint="YYYY"
-            android:padding="5dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_et"
-            android:inputType="date"
-            tools:ignore="Autofill,HardcodedText"  />
-
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -124,30 +109,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/etContact"
-        android:layout_width="50dp"
-        android:layout_marginEnd="15dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:padding="5dp"
-        android:hint="+91"
-        android:background="@drawable/custom_et"
-        android:inputType="phone"
-        tools:ignore="Autofill,HardcodedText" />
 
-    <EditText
-        android:id="@+id/etContactCode"
-        android:layout_width="200dp"
-        android:maxLength="10"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:padding="5dp"
-        android:background="@drawable/custom_et"
-        android:inputType="phone"
-        tools:ignore="Autofill" />
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/etContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_showNameCode="false"
+            tools:ccp_contentColor="#fcfdfd"
+            tools:ccp_textSize="20dp" />
+
+
+        <EditText
+            android:id="@+id/etContactCode"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/custom_et"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:padding="5dp"
+            android:textSize="16sp"
+            tools:ignore="Autofill" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="Verify"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 

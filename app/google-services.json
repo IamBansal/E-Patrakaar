@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "154064692998",
+    "project_id": "e-patrakaar",
+    "storage_bucket": "e-patrakaar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154064692998:android:b51f0f354a865abc79e087",
+        "android_client_info": {
+          "package_name": "com.example.e_patrakaar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154064692998-e2d2b8vsgcj69hbgpojiuudibfj40msi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEK5BeEDE0SSa330XU6Cel87V_2xI5Fk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154064692998-e2d2b8vsgcj69hbgpojiuudibfj40msi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

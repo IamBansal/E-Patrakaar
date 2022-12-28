@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentSearchBinding
 import com.example.e_patrakaar.model.City
+import com.example.e_patrakaar.view.WrapContentStaggeredGridLayoutManager
 import com.example.e_patrakaar.view.adapter.CityAdapter
 
 class SearchFragment : Fragment() {
@@ -24,7 +24,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -37,7 +36,6 @@ class SearchFragment : Fragment() {
             City("Kolkata", R.drawable.cityfour),
         )
         list2 = listOf(
-
             City("Mumbai", R.drawable.cityone),
             City("Delhi", R.drawable.citytwo),
             City("Chennai", R.drawable.citythree),
@@ -46,11 +44,12 @@ class SearchFragment : Fragment() {
             City("Kolkata", R.drawable.cityfour),
             City("Chennai", R.drawable.citythree),
             City("Mumbai", R.drawable.cityone),
-            )
+        )
 
-        binding.rvCities.layoutManager = StaggeredGridLayoutManager(4, LinearLayoutManager.VERTICAL)
+        binding.rvCities.layoutManager =
+            WrapContentStaggeredGridLayoutManager(4, LinearLayoutManager.VERTICAL)
 
-        if (binding.tvViewMore.visibility == View.VISIBLE){
+        if (binding.tvViewMore.visibility == View.VISIBLE) {
             binding.rvCities.adapter = CityAdapter(this@SearchFragment, list1)
         } else {
             binding.rvCities.adapter = CityAdapter(this@SearchFragment, list2)
@@ -67,6 +66,5 @@ class SearchFragment : Fragment() {
             binding.tvViewMore.visibility = View.GONE
             binding.rvCities.adapter = CityAdapter(this@SearchFragment, list2)
         }
-
     }
 }

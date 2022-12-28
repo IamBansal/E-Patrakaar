@@ -20,4 +20,7 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="verify_number">\"Verify %s \"</string>
+    <string name="waiting_next">Waiting to automatically detect an SMS sent to\n %s Wrong Number?</string>
+    <string name="second_remaining">Seconds Remaining: %d</string>
 </resources>

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.e_patrakaar.databinding.CustomRecommendedItemBinding
@@ -12,6 +13,7 @@ import com.example.e_patrakaar.model.Collection
 
 class RecommendedAdapter(private val fragment: Fragment, private val list: List<Collection>) :
     RecyclerView.Adapter<RecommendedAdapter.ViewHolder>() {
+    private val newsList = ArrayList<Collection>()
 
     class ViewHolder(view: CustomRecommendedItemBinding) : RecyclerView.ViewHolder(view.root) {
         val text: TextView = view.textView
@@ -38,4 +40,11 @@ class RecommendedAdapter(private val fragment: Fragment, private val list: List<
         return list.size
     }
 
+    fun setData(list: ArrayList<Collection>) {
+        val diffCallBack = NewsCallBack(newsList, list)
+        val diffNews = DiffUtil.calculateDiff(diffCallBack)
+        newsList.clear()
+        newsList.addAll(list)
+        diffNews.dispatchUpdatesTo(this)
+    }
 }
