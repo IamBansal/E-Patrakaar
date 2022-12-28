@@ -92,7 +92,7 @@
         android:background="@drawable/custom_et"
         android:clickable="true"
         android:cursorVisible="false"
-        android:drawableLeft="@drawable/ic_baseline_calendar"
+        android:drawableStart="@drawable/ic_baseline_calendar"
         android:focusable="false"
         android:hint="      MM/DD/YYYY"
         android:inputType="textEmailAddress"

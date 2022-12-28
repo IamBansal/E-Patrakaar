@@ -1,21 +1,22 @@
 package com.example.e_patrakaar.view.fragment.ui
-
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.e_patrakaar.OtpActivity
@@ -27,13 +28,16 @@ import com.example.e_patrakaar.view.activity.MainActivity
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import java.util.*
+import java.time.Year
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 class EditProfileFragment : Fragment() {
@@ -47,14 +51,14 @@ class EditProfileFragment : Fragment() {
     val database by lazy {
         FirebaseFirestore.getInstance()
     }
-    lateinit var downloadUrl: String
+    lateinit var downloadUrl:String
 
     lateinit var myCalendar: Calendar
-    lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    lateinit var dateSetListener:DatePickerDialog.OnDateSetListener
     private lateinit var binding: FragmentEditProfileBinding
     private lateinit var progressBar: ProgressDialog
-    private lateinit var countryCode: String
-    private lateinit var phoneNumber: String
+    private lateinit var countryCode:String
+    private lateinit var phoneNumber:String
     private lateinit var mProgressBar: ProgressBar
 
     override fun onCreateView(
@@ -76,31 +80,19 @@ class EditProfileFragment : Fragment() {
             showBottomSheetDialog()
         }
         binding.etDOB.setOnClickListener {
-            DatePickerDialog(
-                this.requireContext(),
-                DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            DatePickerDialog(this.requireContext(),DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
-                    binding.etDOB.setText("$dayOfMonth/${month + 1}/$year")
-                },
-                1999,
-                7,
-                8
-            ).show()
+                binding.etDOB.setText("$dayOfMonth/${month+1}/$year")
+            },1999,7,8).show()
         }
 
 
         binding.btnSave.setOnClickListener {
-            val name: String = binding.etName.text.toString()
-            val email: String = binding.etEmail.text.toString()
-            val number: String = binding.etContactCode.text.toString()
+            val name:String = binding.etName.text.toString()
+            val email:String = binding.etEmail.text.toString()
+            val number:String = binding.etContactCode.text.toString()
 
-            val user = com.example.e_patrakaar.database.base.User(
-                name,
-                downloadUrl,
-                email,
-                number,
-                auth.uid!!
-            )
+            val user = com.example.e_patrakaar.database.base.User(name,downloadUrl,email,number,auth.uid!!)
             database.collection("users").document(auth.uid!!).set(user).addOnSuccessListener {
 
             }
@@ -108,7 +100,7 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.etContactCode.addTextChangedListener {
-            binding.btnVerify.isEnabled = !(it.isNullOrBlank() || it.length < 10 || it.length > 10)
+            binding.btnVerify.isEnabled = !(it.isNullOrBlank() ||  it.length < 10 || it.length > 10)
         }
         binding.btnVerify.setOnClickListener {
             checkNumber()
@@ -121,11 +113,11 @@ class EditProfileFragment : Fragment() {
     private fun checkNumber() {
         phoneNumber = binding.etContactCode.text.trim().toString()
 
-        if (phoneNumber.isEmpty()) {
-            if (phoneNumber.length == 10) {
+        if (phoneNumber.isEmpty()){
+            if (phoneNumber.length == 10){
 
                 countryCode = binding.etContact.selectedCountryCodeWithPlus
-                phoneNumber = countryCode + binding.etContactCode.text.toString()
+                phoneNumber = countryCode+binding.etContactCode.text.toString()
 
                 val options = PhoneAuthOptions.newBuilder(auth)
                     .setPhoneNumber(phoneNumber)       // Phone number to verify
@@ -135,16 +127,12 @@ class EditProfileFragment : Fragment() {
                     .build()
                 PhoneAuthProvider.verifyPhoneNumber(options)
 
-            } else {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please Enter Correct Number",
-                    Toast.LENGTH_SHORT
-                ).show()
+            }else{
+                Toast.makeText(this.requireContext(),"Please Enter Correct Number", Toast.LENGTH_SHORT).show()
             }
 
-        } else {
-            Toast.makeText(this.requireContext(), "Please Enter Number", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(this.requireContext(),"Please Enter Number", Toast.LENGTH_SHORT).show()
 
         }
     }
@@ -171,13 +159,12 @@ class EditProfileFragment : Fragment() {
                 }
             }
     }
-
-    private fun sendBackToEditProfile() {
+    private fun sendBackToEditProfile(){
         // Now you have to write the code for going back to EditProfile
 
     }
 
-    private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+   private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
             // This callback will be invoked in two situations:
@@ -186,7 +173,7 @@ class EditProfileFragment : Fragment() {
             // 2 - Auto-retrieval. On some devices Google Play services can automatically
             //     detect the incoming verification SMS and perform verification without
             //     user action.
-            signInWithPhoneAuthCredential(credential)
+              signInWithPhoneAuthCredential(credential)
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
@@ -210,21 +197,21 @@ class EditProfileFragment : Fragment() {
             // now need to ask the user to enter the code and then construct a credential
             // by combining the code with a verification ID.
             // Save verification ID and resending token so we can use them later
-            val intent = Intent(this@EditProfileFragment.requireContext(), OtpActivity::class.java)
-            intent.putExtra("OTP", verificationId)
+            val  intent = Intent(this@EditProfileFragment.requireContext(),OtpActivity::class.java)
+            intent.putExtra("OTP" , verificationId)
             intent.putExtra("resendToken", token)
             intent.putExtra("phonNumber", phoneNumber)
 
             startActivity(intent)
-            mProgressBar.visibility = View.VISIBLE
+            mProgressBar.visibility=View.VISIBLE
         }
     }
 
     override fun onStart() {
         super.onStart()
-        if (auth.currentUser != null) {
+        if(auth.currentUser!= null){
             binding.btnVerify.isEnabled = false
-            Toast.makeText(this.requireContext(), "Already Verified", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext(),"Already Verified",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -249,8 +236,7 @@ class EditProfileFragment : Fragment() {
             dialog.dismiss()
         }
         view.tvRemove.setOnClickListener {
-            Toast.makeText(requireActivity(), "Remove photo is accessed.", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(requireActivity(), "Remove photo is accessed.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
@@ -263,12 +249,12 @@ class EditProfileFragment : Fragment() {
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, 1000)
+        startActivityForResult(intent,1000)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 1000) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 1000){
             data?.data?.let {
                 binding.ivProfile.setImageURI(it)
                 uploadImage(it)
@@ -279,30 +265,30 @@ class EditProfileFragment : Fragment() {
     private fun uploadImage(it: Uri) {
         binding.btnSave.isEnabled = false
 
-        val ref = storage.reference.child("uploads/" + auth.uid.toString())
+        val ref = storage.reference.child("uploads/"+auth.uid.toString())
 
         val uploadTask = ref.putFile(it)
         uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
 
-            if (!task.isSuccessful) {
+            if (!task.isSuccessful){
                 task.exception?.let {
                     throw it
                 }
             }
             return@Continuation ref.downloadUrl
 
-        }).addOnCompleteListener { task ->
+        }) .addOnCompleteListener { task ->
             binding.btnSave.isEnabled = true
-            if (task.isSuccessful) {
+            if (task.isSuccessful){
                 downloadUrl = task.result.toString()
-                Log.i("URL", "downloadUrl: $downloadUrl")
-            } else {
+                Log.i("URL","downloadUrl: $downloadUrl")
+            }else{
 
             }
         }.addOnFailureListener {
 
             binding.btnSave.isEnabled = true
-        }
+       }
 
     }
 }

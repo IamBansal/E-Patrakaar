@@ -24,7 +24,7 @@ import com.example.e_patrakaar.viewmodel.RandomNewsViewModel
 class ExpandedNewsFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentExpandedNewsBinding
-    private lateinit var newsDetails: com.example.e_patrakaar.model.Collection
+    private lateinit var newsDetails: Collection
     private lateinit var randomNewsViewModel: RandomNewsViewModel
     private lateinit var progressBar: ProgressDialog
     private lateinit var list: ArrayList<Collection>
@@ -76,14 +76,14 @@ class ExpandedNewsFragment : Fragment(), OnItemClickListener {
                 val random = (0..100).random()
                 if (it.articles.size >= random + 10) {
                     for (i in random..random + 10) {
-                        val e = it.articles[i]
-                        list.add(Collection(e.title, e.description, e.urlToImage))
+//                        val e = it.articles[i]
+//                        list.add(Collection(e.title, e.description, e.urlToImage))
                         adapter.setData(list)
                     }
                 } else {
                     for (i in random..random + 1) {
-                        val e = it.articles[i]
-                        list.add(Collection(e.title, e.description, e.urlToImage))
+//                        val e = it.articles[i]
+//                        list.add(Collection(e.title, e.description, e.urlToImage))
                         adapter.setData(list)
                     }
                 }

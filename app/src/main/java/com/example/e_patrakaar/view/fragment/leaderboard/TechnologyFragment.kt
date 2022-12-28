@@ -59,34 +59,35 @@ class TechnologyFragment : Fragment(), OnItemClickListener {
                 val random = (0..50).random()
                 for (i in random..random + 5) {
                     val e = it.articles[i]
-                    list.add(Collection(e.title, e.description, e.urlToImage))
+//                    list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterTechnologyTop.setList(list)
                     adapterLatestTechnology.setData(list)
-                for (i in 0 until it.articles.size){
-                    val e = it.articles[i]
-                    list.add(Collection(e.article,e.discription,e.image))
-                    setResponseInUI(list)
-                }
-                progressBar.dismiss()
-            }
-        }
-
-        randomNewsViewModel.randomNewsLoadingError.observe(
-            viewLifecycleOwner
-        ) {
-            it?.let {
-
-            }
-        }
-
-        randomNewsViewModel.loadRandomNews.observe(
-            viewLifecycleOwner
-        ) {
-            it?.let {
-                if (it) {
-                    progressBar.show()
-                } else {
+                    for (i in 0 until it.articles.size) {
+                        val e = it.articles[i]
+                        list.add(Collection(e.article, e.discription, e.image))
+                        setResponseInUI(list)
+                    }
                     progressBar.dismiss()
+                }
+            }
+
+            randomNewsViewModel.randomNewsLoadingError.observe(
+                viewLifecycleOwner
+            ) {
+                it?.let {
+
+                }
+            }
+
+            randomNewsViewModel.loadRandomNews.observe(
+                viewLifecycleOwner
+            ) {
+                it?.let {
+                    if (it) {
+                        progressBar.show()
+                    } else {
+                        progressBar.dismiss()
+                    }
                 }
             }
         }

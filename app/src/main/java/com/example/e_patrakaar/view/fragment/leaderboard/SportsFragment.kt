@@ -62,7 +62,7 @@ class SportsFragment : Fragment(), OnItemClickListener {
                 val random = (0..50).random()
                 for (i in 0 until it.articles.size){
                     val e = it.articles[i]
-                    list.add(Collection(e.title, e.description, e.urlToImage))
+//                    list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterSportsTop.setList(list)
                     list.add(Collection(e.article,e.discription,e.image))
                     setResponseInUI(list)

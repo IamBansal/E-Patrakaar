@@ -69,7 +69,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapterTrending = TrendingNewsAdapter(this@HomeFragment, list, this)
         binding.rvTrending.adapter = adapterTrending
-        binding.trendIndicator.attachToRecyclerView(binding.rvTrending)
+//        binding.trendIndicator.attachToRecyclerView(binding.rvTrending)
 
         binding.rvUpdates.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
@@ -109,13 +109,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 val random = (0..100).random()
                 if (it.articles.size >= random + 10) {
                     for (i in random..random + 10) {
-                        val e = it.articles[i]
-                        list.add(Collection(e.title, e.description, e.urlToImage))
+//                        val e = it.articles[i]
+//                        list.add(Collection(e.title, e.description, e.urlToImage))
                     }
                 } else {
                     for (i in random..random + 1) {
-                        val e = it.articles[i]
-                        list.add(Collection(e.title, e.description, e.urlToImage))
+//                        val e = it.articles[i]
+//                        list.add(Collection(e.title, e.description, e.urlToImage))
                     }
                 }
                 for (i in 0 until min(5, list.size)) {
