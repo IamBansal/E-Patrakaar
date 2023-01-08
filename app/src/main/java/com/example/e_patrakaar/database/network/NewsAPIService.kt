@@ -17,10 +17,10 @@ class NewsAPIService {
         .build()
         .create(NewsAPI::class.java)
 
-    fun getRandomNews(): Single<RandomNewsAPI> {
+    fun getRandomNews(): Single<RandomNews.News> {
         return api.getNews(
-//            Constants.TAG_VALUE,
-//            Constants.API_KEY_VALUE,
+            Constants.TAG_VALUE,
+            Constants.API_KEY_VALUE,
 //            Constants.NUMBER_VALUE
         )
     }

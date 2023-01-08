@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -55,38 +56,39 @@ class HealthFragment : Fragment(), OnItemClickListener {
             viewLifecycleOwner
         ) {
             it?.let {
-                val random = (0..50).random()
-                for (i in random..random + 5) {
+                val random = (0..it.articles.size - 6).random()
+                for (i in random until random + 5) {
                     val e = it.articles[i]
-//                    list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterHealthTop.setList(list)
                     adapterLatestHealth.setData(list)
-                    for (i in 0 until it.articles.size) {
-                        val e = it.articles[i]
-                        list.add(Collection(e.article, e.discription, e.image))
-                        setResponseInUI(list)
-                    }
+                    list.add(Collection(e.title, e.description, e.urlToImage))
+                }
+                setResponseInUI(list)
+                progressBar.dismiss()
+            }
+        }
+
+        randomNewsViewModel.randomNewsLoadingError.observe(
+            viewLifecycleOwner
+        ){
+            it?.let {
+                if (it){
+                    Toast.makeText(requireActivity(), "Error", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireActivity(), "NO Error", Toast.LENGTH_SHORT).show()
                     progressBar.dismiss()
                 }
             }
+        }
 
-            randomNewsViewModel.randomNewsLoadingError.observe(
-                viewLifecycleOwner
-            ) {
-                it?.let {
-
-                }
-            }
-
-            randomNewsViewModel.loadRandomNews.observe(
-                viewLifecycleOwner
-            ) {
-                it?.let {
-                    if (it) {
-                        progressBar.show()
-                    } else {
-                        progressBar.dismiss()
-                    }
+        randomNewsViewModel.loadRandomNews.observe(
+            viewLifecycleOwner
+        ){
+            it?.let {
+                if (it){
+                    progressBar.show()
+                } else {
+                    progressBar.dismiss()
                 }
             }
         }

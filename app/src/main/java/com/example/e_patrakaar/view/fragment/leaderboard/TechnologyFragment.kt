@@ -56,19 +56,15 @@ class TechnologyFragment : Fragment(), OnItemClickListener {
             viewLifecycleOwner
         ) {
             it?.let {
-                val random = (0..50).random()
-                for (i in random..random + 5) {
+                val random = (0..it.articles.size - 5).random()
+                for (i in random until random + 5) {
                     val e = it.articles[i]
-//                    list.add(Collection(e.title, e.description, e.urlToImage))
+                    list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterTechnologyTop.setList(list)
                     adapterLatestTechnology.setData(list)
-                    for (i in 0 until it.articles.size) {
-                        val e = it.articles[i]
-                        list.add(Collection(e.article, e.discription, e.image))
-                        setResponseInUI(list)
-                    }
-                    progressBar.dismiss()
+                    setResponseInUI(list)
                 }
+                progressBar.dismiss()
             }
 
             randomNewsViewModel.randomNewsLoadingError.observe(

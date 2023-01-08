@@ -12,10 +12,8 @@ interface NewsAPI {
 
     @GET(Constants.API_ENDPOINT)
     fun getNews(
-//        @Query(Constants.TAG) tag: String,
-//        @Query(Constants.API_KEY) apiKey: String,
-//        @Query(Constants.NUMBER) number: Int,
-
-    ): Single<RandomNewsAPI>
+        @Query(Constants.TAG) tag: String,
+        @Query(Constants.API_KEY) apiKey: String,
+    ): Single<RandomNews.News>
 
 }

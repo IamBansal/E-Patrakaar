@@ -109,13 +109,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 val random = (0..100).random()
                 if (it.articles.size >= random + 10) {
                     for (i in random..random + 10) {
-//                        val e = it.articles[i]
-//                        list.add(Collection(e.title, e.description, e.urlToImage))
+                        val e = it.articles[i]
+                        list.add(Collection(e.title, e.description, e.urlToImage))
                     }
                 } else {
                     for (i in random..random + 1) {
-//                        val e = it.articles[i]
-//                        list.add(Collection(e.title, e.description, e.urlToImage))
+                        val e = it.articles[i]
+                        list.add(Collection(e.title, e.description, e.urlToImage))
                     }
                 }
                 for (i in 0 until min(5, list.size)) {
@@ -128,7 +128,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
 //                if (it.articles.size >= random + 10){
                 for (i in 0 until it.articles.size){
                         val e = it.articles[i]
-                        list.add(Collection(e.article,e.discription,e.image))
+                        list.add(Collection(e.title,e.description,e.urlToImage))
                         setResponseInUI(list)
                     }
 //                } else {
