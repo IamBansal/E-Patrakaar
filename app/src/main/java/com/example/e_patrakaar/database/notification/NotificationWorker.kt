@@ -47,13 +47,20 @@ class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
             .bigPicture(bitmap)
             .bigLargeIcon(null)
 
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+        lateinit var pendingIntent : PendingIntent
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            pendingIntent = PendingIntent.getActivity(applicationContext , 0 , intent , PendingIntent.FLAG_IMMUTABLE)
+        }
+        else {
+            pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+        }
 
         val notification =
             NotificationCompat.Builder(applicationContext, Constants.NOTIFICATION_CHANNEL)
                 .setContentTitle(titleNotification)
                 .setContentText(subtitleNotification)
                 .setLargeIcon(bitmap)
+                .setSmallIcon(R.drawable.notifications_outline)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setStyle(bigPicStyle)

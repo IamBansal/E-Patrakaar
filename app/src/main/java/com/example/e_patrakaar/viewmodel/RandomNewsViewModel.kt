@@ -29,10 +29,16 @@ class RandomNewsViewModel: ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object :DisposableSingleObserver<RandomNews.News>(){
                     override fun onSuccess(t: RandomNews.News) {
-                        loadRandomNews.value = true
-                        randomNewsResponse.value = t
-                        Log.d("check fine", t.articles[0].description)
-                        randomNewsLoadingError.value = false
+                        try {
+                            loadRandomNews.value = true
+                            randomNewsResponse.value = t
+                            Log.d("check fine", t.articles[0].description)
+                            randomNewsLoadingError.value = false
+                        }catch (e: Throwable){
+                            loadRandomNews.value = false
+                            randomNewsLoadingError.value = true
+                            Log.d("errorInFetchingDetails", e.toString())
+                        }
                     }
 
                     override fun onError(e: Throwable) {
