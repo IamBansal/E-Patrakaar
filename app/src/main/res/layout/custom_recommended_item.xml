@@ -28,7 +28,7 @@
             tools:text="Random text is there you know that"
             android:layout_marginHorizontal="3dp"
             android:layout_marginTop="8dp"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:layout_gravity="bottom|center"
             android:textColor="?android:textColorPrimary"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="3dp"
                 android:text="Social Work"
-                android:textSize="8dp"
+                android:textSize="8sp"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -61,11 +61,11 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/black"
+                android:background="@color/app_color"
                 android:padding="5dp"
                 android:text="@string/follow"
                 android:textColor="@color/white"
-                android:textSize="9dp"
+                android:textSize="9sp"
                 app:drawableEndCompat="@drawable/add_3"
                 tools:ignore="RelativeOverlap" />
 

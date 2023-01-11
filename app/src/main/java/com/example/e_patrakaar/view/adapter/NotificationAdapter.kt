@@ -13,11 +13,10 @@ import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.CutsomNotificationItemBinding
 import com.example.e_patrakaar.model.Notification
 
-class NotificationAdapter(private val fragment: Fragment, private val list: List<Notification>) :
+class NotificationAdapter(private val fragment: Fragment, list: List<Notification>) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
-
-    var notificationList: List<Notification> = list
+    private var notificationList: List<Notification> = list
 
     class ViewHolder(view: CutsomNotificationItemBinding) : RecyclerView.ViewHolder(view.root) {
         val notificationMessage: TextView = view.textView
