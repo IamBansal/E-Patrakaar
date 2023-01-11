@@ -23,4 +23,9 @@
     <string name="verify_number">\"Verify %s \"</string>
     <string name="waiting_next">Waiting to automatically detect an SMS sent to\n %s Wrong Number?</string>
     <string name="second_remaining">Seconds Remaining: %d</string>
+    <string name="greeting_notif_shared_pref_key">Greeting_notification_key</string>
+    <string name="notification_greeting_morning">Read, what happened in the world while you were sleeping</string>
+    <string name="notification_greeting_afternooon">Good afternoon, read the breaking news in less than 150 words</string>
+    <string name="notification_greeting_evening">Good evening, relax and have a sip of tea</string>
+    <string name="notification_greeting_night">It\'s been a while you are awake. Take a good sleep</string>
 </resources>
