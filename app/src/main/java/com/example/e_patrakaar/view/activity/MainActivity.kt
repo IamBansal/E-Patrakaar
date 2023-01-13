@@ -6,10 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -28,7 +26,6 @@ import com.example.e_patrakaar.utils.Constants
 import com.example.e_patrakaar.view.fragment.main.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.Instant
-import java.time.LocalTime
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
 
@@ -46,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d("Time" , "create notificatoin called")
+        Log.d("Time" , "create notification called")
         createNotificationChannel()
 
 //        val notificationManager = NotificationManagerCompat.from(this)
@@ -157,18 +154,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val Channel = NotificationChannel(
-                CHANNEL_ID, CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                lightColor = Color.GREEN
-                enableLights(true)
-            }
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(Channel)
+    private fun createNotificationChannel() {
+        val channel = NotificationChannel(
+            CHANNEL_ID, CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            lightColor = Color.GREEN
+            enableLights(true)
         }
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
     }
 
     private fun createConstraints() = Constraints.Builder()

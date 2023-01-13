@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "154064692998-sckans2c15aj9f3frldrc85qc6k4k4cg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.e_patrakaar",
+            "certificate_hash": "99c72b27f4fe6205282513d557bcf86781d05e4c"
+          }
+        },
+        {
           "client_id": "154064692998-e2d2b8vsgcj69hbgpojiuudibfj40msi.apps.googleusercontent.com",
           "client_type": 3
         }
