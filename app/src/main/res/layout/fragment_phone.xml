@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".view.fragment.auth.PhoneFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        app:title="OTP Verification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:textSize="20sp"
@@ -14,13 +20,39 @@
         android:layout_height="wrap_content"
         android:text="@string/please_enter_your_phone_number_to_get_a_verification_code" />
 
-    <EditText
-        android:id="@+id/etPhone"
-        android:hint="9871877325"
+    <LinearLayout
         android:layout_marginHorizontal="10dp"
-        android:inputType="phone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/etContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_showNameCode="false"
+            app:ccp_defaultPhoneCode="91"
+            tools:ccp_contentColor="#fcfdfd"
+            tools:ccp_textSize="20dp" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/custom_et"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:hint="@string/enter_phone_number"
+            android:padding="5dp"
+            android:textSize="16sp"
+            tools:ignore="Autofill" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnRequest"

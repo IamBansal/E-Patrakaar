@@ -34,7 +34,8 @@
     <string name="please_enter_your_phone_number_to_get_a_verification_code">Please enter your phone number to get a verification code</string>
     <string name="request_otp">Request OTP</string>
     <string name="by_clicking_i_accept_the_terms_of_service_and_privacy_policy">By clicking, I accept the terms of service and privacy policy.</string>
-    <string name="please_enter_the_verification_code_sent_to_you">Please enter the verification code sent to you</string>
-    <string name="didn_t_recieve_it_retry">Didn\'t recieve it? Retry</string>
+    <string name="please_enter_the_verification_code_sent_to_you">Please enter the verification code sent to</string>
+    <string name="didn_t_receive_it_retry">Didn\'t receive it? Retry in  </string>
     <string name="submit">Submit</string>
+    <string name="enter_phone_number">Enter phone number</string>
 </resources>

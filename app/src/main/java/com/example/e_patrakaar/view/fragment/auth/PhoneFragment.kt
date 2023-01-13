@@ -36,13 +36,14 @@ class PhoneFragment : Fragment() {
 
         binding.btnRequest.setOnClickListener {
             sendOTP()
-
         }
         auth = FirebaseAuth.getInstance()
     }
 
     private fun sendOTP() {
         val phoneNumber = binding.etPhone.text.toString().trim()
+        val countryCode = binding.etContact.selectedCountryCode.toString().trim()
+
         if (phoneNumber.isNotEmpty()) {
             if (phoneNumber.length == 10) {
 
@@ -62,8 +63,7 @@ class PhoneFragment : Fragment() {
                             token: PhoneAuthProvider.ForceResendingToken
                         ) {
                             Log.d(tag, "onCodeSent:$verificationId")
-
-                            val bundle = bundleOf(("otp" to verificationId), ("number" to phoneNumber))
+                            val bundle = bundleOf(("otp" to verificationId), ("number" to phoneNumber), ("code" to countryCode))
                             findNavController().navigate(R.id.action_navigation_phone_to_navigation_otp, bundle)
 
 //                            val intent = Intent(req, OTPVerification::class.java)
@@ -74,7 +74,7 @@ class PhoneFragment : Fragment() {
                     }
 
                 val options = PhoneAuthOptions.newBuilder(auth)
-                    .setPhoneNumber("+91$phoneNumber")
+                    .setPhoneNumber("+$countryCode$phoneNumber")
                     .setTimeout(60L, TimeUnit.SECONDS)
                     .setActivity(requireActivity())
                     .setCallbacks(callbacks)

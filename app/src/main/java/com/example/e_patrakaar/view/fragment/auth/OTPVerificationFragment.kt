@@ -1,7 +1,9 @@
 package com.example.e_patrakaar.view.fragment.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.e_patrakaar.databinding.FragmentOTPVerificationBinding
 import com.example.e_patrakaar.view.activity.MainActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -32,12 +35,27 @@ class OTPVerificationFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        binding.tvPhone.text = "Please enter the verification code sent to +91 ${arguments?.getString("number")}"
+        binding.tvPhone.text = "Please enter the verification code sent to +${arguments?.getString("code")} ${arguments?.getString("number")}"
+        countdown()
 
         binding.btnSubmit.setOnClickListener {
             verifyOTP()
         }
 
+    }
+
+    private fun countdown() {
+        object : CountDownTimer(31000, 1000) {
+            @SuppressLint("SetTextI18n")
+            override fun onTick(millisUntilFinished: Long) {
+                binding.timer.text = "00:${millisUntilFinished / 1000}"
+            }
+
+            override fun onFinish() {
+                Toast.makeText(requireActivity(), "Time's up, Request OTP again.", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            }
+        }.start()
     }
 
     private fun verifyOTP() {

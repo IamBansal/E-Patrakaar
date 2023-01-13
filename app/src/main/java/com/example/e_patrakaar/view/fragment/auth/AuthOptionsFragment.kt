@@ -69,7 +69,7 @@ class AuthOptionsFragment : Fragment() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             handleResult(task)
         } else {
-            Toast.makeText(requireActivity(), "Result Not okay", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireActivity(), "Result Not okay", Toast.LENGTH_SHORT).show()
         }
     }
 
