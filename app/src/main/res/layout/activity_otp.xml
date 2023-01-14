@@ -36,7 +36,7 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="number"
-             />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/otpEditText2"
@@ -44,24 +44,26 @@
             android:layout_height="45dp"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number" />
+            android:inputType="number"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/otpEditText3"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:inputType="number"
             android:gravity="center"
-           />
+            android:inputType="number"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
         <EditText
             android:id="@+id/otpEditText4"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:inputType="number"
             android:gravity="center"
-            />
+            android:inputType="number"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
         <EditText
@@ -69,9 +71,9 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:inputType="number"
             android:gravity="center"
-          />
+            android:inputType="number"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
         <EditText
@@ -80,9 +82,9 @@
             android:layout_height="45dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:inputType="number"
             android:gravity="center"
-            />
+            android:inputType="number"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 
     </LinearLayout>

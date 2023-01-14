@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.e_patrakaar.databinding.FragmentSportsBinding
 import com.example.e_patrakaar.model.Collection
 import com.example.e_patrakaar.view.OnItemClickListener
@@ -59,12 +58,12 @@ class SportsFragment : Fragment(), OnItemClickListener {
             viewLifecycleOwner
         ) {
             it?.let {
-                val random = (0..50).random()
-                for (i in 0 until it.articles.size){
+                val random = (0..it.articles.size - 5).random()
+                for (i in random until random + 5) {
                     val e = it.articles[i]
-                    list.add(Collection(e.title, e.description, e.urlToImage))
+//                    list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterSportsTop.setList(list)
-                    list.add(Collection(e.article,e.discription,e.image))
+                    list.add(Collection(e.title,e.description,e.urlToImage))
                     setResponseInUI(list)
                 }
                 progressBar.dismiss()

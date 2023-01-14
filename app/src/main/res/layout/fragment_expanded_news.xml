@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="24dp"
+            android:backgroundTint="@color/app_color"
             android:drawableEnd="@drawable/add_3"
             android:text="@string/follow"
             android:textAllCaps="false"

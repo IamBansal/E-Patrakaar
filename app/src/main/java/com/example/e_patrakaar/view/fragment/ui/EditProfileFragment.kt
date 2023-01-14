@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeUnit
 
 class EditProfileFragment : Fragment() {
 
-    val storage by lazy {
+    private val storage by lazy {
         FirebaseStorage.getInstance()
     }
     val auth by lazy {
@@ -49,8 +48,6 @@ class EditProfileFragment : Fragment() {
     }
     lateinit var downloadUrl: String
 
-    lateinit var myCalendar: Calendar
-    lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
     private lateinit var binding: FragmentEditProfileBinding
     private lateinit var progressBar: ProgressDialog
     private lateinit var countryCode: String
@@ -78,8 +75,7 @@ class EditProfileFragment : Fragment() {
         binding.etDOB.setOnClickListener {
             DatePickerDialog(
                 this.requireContext(),
-                DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-
+                {_, year, month, dayOfMonth ->
                     binding.etDOB.setText("$dayOfMonth/${month + 1}/$year")
                 },
                 1999,
@@ -128,10 +124,10 @@ class EditProfileFragment : Fragment() {
                 phoneNumber = countryCode + binding.etContactCode.text.toString()
 
                 val options = PhoneAuthOptions.newBuilder(auth)
-                    .setPhoneNumber(phoneNumber)       // Phone number to verify
-                    .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                    .setActivity(this.requireActivity())                 // Activity (for callback binding)
-                    .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
+                    .setPhoneNumber(phoneNumber)
+                    .setTimeout(60L, TimeUnit.SECONDS)
+                    .setActivity(this.requireActivity())
+                    .setCallbacks(callbacks)
                     .build()
                 PhoneAuthProvider.verifyPhoneNumber(options)
 
@@ -142,10 +138,8 @@ class EditProfileFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
         } else {
             Toast.makeText(this.requireContext(), "Please Enter Number", Toast.LENGTH_SHORT).show()
-
         }
     }
 
@@ -153,67 +147,35 @@ class EditProfileFragment : Fragment() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this.requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-                    val user = task.result?.user
                     Toast.makeText(
                         this.requireContext(),
                         "Authenticate Successfully",
                         Toast.LENGTH_SHORT
                     ).show()
-                    sendBackToEditProfile()
+                    // sendBackToEditProfile
                 } else {
-                    // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        // The verification code entered was invalid
-                    }
                 }
             }
-    }
-
-    private fun sendBackToEditProfile() {
-        // Now you have to write the code for going back to EditProfile
-
     }
 
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-            // This callback will be invoked in two situations:
-            // 1 - Instant verification. In some cases the phone number can be instantly
-            //     verified without needing to send or enter a verification code.
-            // 2 - Auto-retrieval. On some devices Google Play services can automatically
-            //     detect the incoming verification SMS and perform verification without
-            //     user action.
             signInWithPhoneAuthCredential(credential)
         }
 
-        override fun onVerificationFailed(e: FirebaseException) {
-            // This callback is invoked in an invalid request for verification is made,
-            // for instance if the the phone number format is not valid.
-
-            if (e is FirebaseAuthInvalidCredentialsException) {
-                // Invalid request
-            } else if (e is FirebaseTooManyRequestsException) {
-                // The SMS quota for the project has been exceeded
-            }
-
-            // Show a message and update the UI
-        }
+        override fun onVerificationFailed(e: FirebaseException) {}
 
         override fun onCodeSent(
             verificationId: String,
             token: PhoneAuthProvider.ForceResendingToken
         ) {
-            // The SMS verification code has been sent to the provided phone number, we
-            // now need to ask the user to enter the code and then construct a credential
-            // by combining the code with a verification ID.
-            // Save verification ID and resending token so we can use them later
             val intent = Intent(this@EditProfileFragment.requireContext(), OtpActivity::class.java)
             intent.putExtra("OTP", verificationId)
             intent.putExtra("resendToken", token)
-            intent.putExtra("phonNumber", phoneNumber)
+            intent.putExtra("phoneNumber", phoneNumber)
 
             startActivity(intent)
             mProgressBar.visibility = View.VISIBLE
@@ -266,6 +228,7 @@ class EditProfileFragment : Fragment() {
         startActivityForResult(intent, 1000)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1000) {
@@ -296,8 +259,6 @@ class EditProfileFragment : Fragment() {
             if (task.isSuccessful) {
                 downloadUrl = task.result.toString()
                 Log.i("URL", "downloadUrl: $downloadUrl")
-            } else {
-
             }
         }.addOnFailureListener {
 

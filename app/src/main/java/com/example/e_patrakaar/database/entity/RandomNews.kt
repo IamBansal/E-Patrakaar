@@ -3,9 +3,7 @@ package com.example.e_patrakaar.database.entity
 object RandomNews {
 
     data class News(
-        val articles: List<Article>,
-//        val status: String,
-//        val totalResults: Int
+        val articles: List<Article>
     )
 
     data class Article(

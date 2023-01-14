@@ -52,67 +52,68 @@ class EntertainmentFragment : Fragment(), OnItemClickListener {
     private fun randomNewsViewModelObserver() {
         randomNewsViewModel.randomNewsResponse.observe(
             viewLifecycleOwner
-        ) {
+        ) { it ->
             it?.let {
-                val random = (0..50).random()
-                for (i in random..random + 5) {
+                val random = (0..it.articles.size - 5).random()
+                for (i in random until random + 5) {
                     val e = it.articles[i]
                     list.add(Collection(e.title, e.description, e.urlToImage))
                     adapterEnterTop.setList(list)
                     adapterLatestEntertainment.setData(list)
-                for (i in 0 until it.articles.size){
-                    val e = it.articles[i]
-                    list.add(Collection(e.article,e.discription,e.image))
+//                    for (i in 0 until it.articles.size) {
+//                        val e = it.articles[i]
+//                        list.add(Collection(e.title,e.description,e.urlToImage))
+//                    }
                     setResponseInUI(list)
-                }
-                progressBar.dismiss()
-            }
-        }
-
-        randomNewsViewModel.randomNewsLoadingError.observe(
-            viewLifecycleOwner
-        ) {
-            it?.let {
-
-            }
-        }
-
-        randomNewsViewModel.loadRandomNews.observe(
-            viewLifecycleOwner
-        ) {
-            it?.let {
-                if (it) {
-                    progressBar.show()
-                } else {
                     progressBar.dismiss()
                 }
             }
+
+            randomNewsViewModel.randomNewsLoadingError.observe(
+                viewLifecycleOwner
+            ) {
+                it?.let {
+
+                }
+            }
+
+            randomNewsViewModel.loadRandomNews.observe(
+                viewLifecycleOwner
+            ) {
+                it?.let {
+                    if (it) {
+                        progressBar.show()
+                    } else {
+                        progressBar.dismiss()
+                    }
+                }
+            }
         }
     }
 
-    private fun setResponseInUI(list: ArrayList<Collection>) {
-        binding.rvEnterTop.layoutManager =
-            WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
-        adapterEnterTop = CustomNewsAdapter(this@EntertainmentFragment, list, this)
-        binding.rvEnterTop.adapter = adapterEnterTop
-        binding.rvLatestEnter.layoutManager =
-            WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
-        adapterLatestEntertainment = LatestTechAdapter(this@EntertainmentFragment, list, this)
-        binding.rvLatestEnter.adapter = adapterLatestEntertainment
-    }
+        private fun setResponseInUI(list: ArrayList<Collection>) {
+            binding.rvEnterTop.layoutManager =
+                WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
+            adapterEnterTop = CustomNewsAdapter(this@EntertainmentFragment, list, this)
+            binding.rvEnterTop.adapter = adapterEnterTop
+            binding.rvLatestEnter.layoutManager =
+                WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
+            adapterLatestEntertainment = LatestTechAdapter(this@EntertainmentFragment, list, this)
+            binding.rvLatestEnter.adapter = adapterLatestEntertainment
+        }
 
-    private fun newsDetails(news: Collection) {
-        findNavController().navigate(
-            LeaderboardFragmentDirections.actionNavigationLeaderboardToNavigationExpandedNews(
-                news
+        private fun newsDetails(news: Collection) {
+            findNavController().navigate(
+                LeaderboardFragmentDirections.actionNavigationLeaderboardToNavigationExpandedNews(
+                    news
+                )
             )
-        )
-    }
+        }
 
-    override fun onItemClick(news: Collection) {
-        newsDetails(news)
-    }
+        override fun onItemClick(news: Collection) {
+            newsDetails(news)
+        }
 
-    override fun onItemClickReturnViewHolder(viewHolder: RecyclerView.ViewHolder) {
+        override fun onItemClickReturnViewHolder(viewHolder: RecyclerView.ViewHolder) {
+        }
     }
-}

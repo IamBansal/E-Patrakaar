@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation"
+    app:startDestination="@id/navigation_options">
+
+    <fragment
+        android:id="@+id/navigation_options"
+        android:name="com.example.e_patrakaar.view.fragment.auth.AuthOptionsFragment"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_auth_options" >
+        <action
+            android:id="@+id/action_navigation_options_to_navigation_phone"
+            app:destination="@id/navigation_phone" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_phone"
+        android:name="com.example.e_patrakaar.view.fragment.auth.PhoneFragment"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_phone" >
+        <argument
+            android:name="otp"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_navigation_phone_to_navigation_otp"
+            app:destination="@id/navigation_otp" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_otp"
+        android:name="com.example.e_patrakaar.view.fragment.auth.OTPVerificationFragment"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_o_t_p_verification" />
+
+</navigation>

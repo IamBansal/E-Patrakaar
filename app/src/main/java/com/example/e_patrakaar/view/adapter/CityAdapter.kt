@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.e_patrakaar.databinding.CustomCityItemBinding
 import com.example.e_patrakaar.model.City
-import com.example.e_patrakaar.model.Collection
 
 class CityAdapter(private val fragment: Fragment, private val list: List<City>): RecyclerView.Adapter<CityAdapter.ViewHolder>() {
 

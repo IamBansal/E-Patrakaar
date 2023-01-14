@@ -24,7 +24,7 @@ import com.example.e_patrakaar.viewmodel.RandomNewsViewModel
 class ExpandedNewsFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentExpandedNewsBinding
-    private lateinit var newsDetails: com.example.e_patrakaar.model.Collection
+    private lateinit var newsDetails: Collection
     private lateinit var randomNewsViewModel: RandomNewsViewModel
     private lateinit var progressBar: ProgressDialog
     private lateinit var list: ArrayList<Collection>

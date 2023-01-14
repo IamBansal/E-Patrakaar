@@ -92,7 +92,7 @@
         android:background="@drawable/custom_et"
         android:clickable="true"
         android:cursorVisible="false"
-        android:drawableLeft="@drawable/ic_baseline_calendar"
+        android:drawableStart="@drawable/ic_baseline_calendar"
         android:focusable="false"
         android:hint="      MM/DD/YYYY"
         android:inputType="textEmailAddress"
@@ -111,7 +111,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <com.hbb20.CountryCodePicker
             android:id="@+id/etContact"
             android:layout_width="wrap_content"
@@ -122,7 +121,6 @@
             app:ccp_showNameCode="false"
             tools:ccp_contentColor="#fcfdfd"
             tools:ccp_textSize="20dp" />
-
 
         <EditText
             android:id="@+id/etContactCode"
@@ -145,6 +143,7 @@
             android:layout_marginStart="5dp"
             android:padding="5dp"
             android:text="Verify"
+            android:backgroundTint="@color/app_color"
             android:textAllCaps="false"
             android:textSize="14sp"
             app:cornerRadius="10dp"
@@ -188,6 +187,7 @@
         android:padding="5dp"
         android:text="Save"
         android:textAllCaps="false"
+        android:backgroundTint="@color/app_color"
         android:textSize="14sp"
         app:cornerRadius="10dp"
         tools:ignore="HardcodedText" />
