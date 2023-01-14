@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.e_patrakaar.databinding.FragmentSportsBinding
 import com.example.e_patrakaar.model.Collection
 import com.example.e_patrakaar.view.OnItemClickListener

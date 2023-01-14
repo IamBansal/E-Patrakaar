@@ -1,5 +1,6 @@
 package com.example.e_patrakaar.database.notification
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -28,6 +29,7 @@ class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
         return Result.success()
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun sendNotification() {
         val notificationId = 0
 
@@ -47,12 +49,10 @@ class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
             .bigPicture(bitmap)
             .bigLargeIcon(null)
 
-        lateinit var pendingIntent : PendingIntent
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
-            pendingIntent = PendingIntent.getActivity(applicationContext , 0 , intent , PendingIntent.FLAG_IMMUTABLE)
-        }
-        else {
-            pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+        val pendingIntent : PendingIntent = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            PendingIntent.getActivity(applicationContext , 0 , intent , PendingIntent.FLAG_IMMUTABLE)
+        } else {
+            PendingIntent.getActivity(applicationContext, 0, intent, 0)
         }
 
         val notification =
@@ -75,17 +75,14 @@ class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
         val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(Constants.NOTIFICATION_CHANNEL, Constants.NOTIFICATION_NAME, NotificationManager.IMPORTANCE_HIGH)
+        val channel = NotificationChannel(Constants.NOTIFICATION_CHANNEL, Constants.NOTIFICATION_NAME, NotificationManager.IMPORTANCE_HIGH)
 
-            channel.enableLights(true)
-            channel.lightColor = Color.RED
-            channel.enableVibration(true)
-            channel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-            channel.setSound(ringtoneManager, audioAttributes)
-            notificationManager.createNotificationChannel(channel)
-
-        }
+        channel.enableLights(true)
+        channel.lightColor = Color.RED
+        channel.enableVibration(true)
+        channel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+        channel.setSound(ringtoneManager, audioAttributes)
+        notificationManager.createNotificationChannel(channel)
 
         Log.d("error1", "checked")
         notificationManager.notify(notificationId, notification.build())

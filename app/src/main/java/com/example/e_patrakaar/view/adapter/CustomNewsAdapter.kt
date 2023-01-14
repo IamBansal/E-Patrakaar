@@ -16,7 +16,7 @@ import com.example.e_patrakaar.view.OnItemClickListener
 class CustomNewsAdapter(
     private val fragment: Fragment,
     private val list: List<Collection>,
-    val clickListener: OnItemClickListener
+    private val clickListener: OnItemClickListener
 ) :
     RecyclerView.Adapter<CustomNewsAdapter.ViewHolder>() {
     private val newsList = ArrayList<Collection>()

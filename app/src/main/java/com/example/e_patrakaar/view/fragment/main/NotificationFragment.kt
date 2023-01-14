@@ -59,8 +59,4 @@ class NotificationFragment : Fragment() {
             adapter.setData(it)
         }
     }
-
-    fun setList(list: List<Notification>) {
-        adapter.setData(list)
-    }
 }

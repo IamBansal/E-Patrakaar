@@ -54,7 +54,7 @@ class TechnologyFragment : Fragment(), OnItemClickListener {
     private fun randomNewsViewModelObserver() {
         randomNewsViewModel.randomNewsResponse.observe(
             viewLifecycleOwner
-        ) {
+        ) { it ->
             it?.let {
                 val random = (0..it.articles.size - 5).random()
                 for (i in random until random + 5) {

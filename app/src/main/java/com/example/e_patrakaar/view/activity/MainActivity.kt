@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    val CHANNEL_ID = "channelID"
-    val CHANNEL_NAME = "channelName"
-    val NOTIFIACTION_ID = 0
+    private val channelID = "channelID"
+    private val channelName = "channelName"
+    private val notificationId = 0
     val list : MutableLiveData<List<Notification>> = MutableLiveData()
 
     lateinit var binding: ActivityMainBinding
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
 //        val notificationManager = NotificationManagerCompat.from(this)
 //        binding.navView.setOnClickListener {
-//            notificationManager.notify(NOTIFIACTION_ID,notification)
+//            notificationManager.notify(NOTIFICATION_ID,notification)
 //        }
 
         setSupportActionBar(binding.toolbar)
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
-            CHANNEL_ID, CHANNEL_NAME,
+            channelID, channelName,
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
             lightColor = Color.GREEN
@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity() {
             getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
         }
 
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+        val notification = NotificationCompat.Builder(this, channelID)
             .setContentTitle("Greetings....")
             .setContentText(content)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))
@@ -205,6 +205,6 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(NOTIFIACTION_ID, notification)
+        notificationManager.notify(notificationId, notification)
     }
 }

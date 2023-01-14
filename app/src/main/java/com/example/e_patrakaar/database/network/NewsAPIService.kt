@@ -1,8 +1,6 @@
 package com.example.e_patrakaar.database.network
 
-import com.example.e_patrakaar.database.entity.Random
 import com.example.e_patrakaar.database.entity.RandomNews
-import com.example.e_patrakaar.database.entity.RandomNewsAPI
 import com.example.e_patrakaar.utils.Constants
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Retrofit
@@ -21,7 +19,6 @@ class NewsAPIService {
         return api.getNews(
             Constants.TAG_VALUE,
             Constants.API_KEY_VALUE,
-//            Constants.NUMBER_VALUE
         )
     }
 }

@@ -15,7 +15,7 @@ class WrapContentStaggeredGridLayoutManager(count: Int, orientation: Int) :
         try {
             super.onLayoutChildren(recycler, state)
         } catch (e: IndexOutOfBoundsException) {
-            Log.e("TAG", "indexOutOfBoundsExceptionOccured")
+            Log.e("TAG", "indexOutOfBoundsExceptionOccurred")
         }
     }
 }

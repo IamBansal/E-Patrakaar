@@ -119,7 +119,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     }
                 }
                 for (i in 0 until min(5, list.size)) {
-                    maxFiveTrendNewsList.add(list.get(i))
+                    maxFiveTrendNewsList.add(list[i])
                 }
                 adapterTrending.setData(maxFiveTrendNewsList)
                 adapterRecommended.setData(list)
