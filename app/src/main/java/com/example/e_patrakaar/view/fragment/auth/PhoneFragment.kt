@@ -90,7 +90,7 @@ class PhoneFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Please enter correct mobile number", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(requireActivity(), "PLease enter phone number first.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "Please enter phone number first.", Toast.LENGTH_SHORT).show()
         }
     }
 
