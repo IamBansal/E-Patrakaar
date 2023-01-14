@@ -36,6 +36,7 @@
         android:id="@+id/OTPPinView"
         app:itemCount="6"
         app:itemRadius="6dp"
+        android:layout_marginHorizontal="10dp"
         app:itemSpacing="15dp"
         style="@style/PinWidget.PinView"
         android:inputType="number"
