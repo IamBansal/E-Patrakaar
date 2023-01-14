@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentAuthOptionsBinding
+import com.example.e_patrakaar.view.activity.AuthActivity
 import com.example.e_patrakaar.view.activity.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -73,32 +75,30 @@ class AuthOptionsFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (GoogleSignIn.getLastSignedInAccount(requireActivity()) != null) {
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
-        }
-    }
-
     private fun handleResult(completedTask: Task<GoogleSignInAccount>) {
         if (completedTask.isSuccessful) {
             val account: GoogleSignInAccount? = completedTask.result
             if (account != null) {
-                updateUI(account)
+                val dialog = (activity as AuthActivity).setProgressDialog(requireContext(), "Signing you in...")
+                dialog.show()
+                updateUI(account, dialog)
             }
         } else{
             Toast.makeText(requireActivity(), completedTask.exception.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun updateUI(account: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(requireActivity(), "Sign in successful with\nUsername : ${account.displayName}\nEmail : ${account.email}", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireActivity(), task.exception.toString(), Toast.LENGTH_SHORT).show()
-            }
+    private fun updateUI(account: GoogleSignInAccount, dialog: AlertDialog) {
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            auth.signInWithCredential(credential).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    dialog.dismiss()
+                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                    Toast.makeText(requireActivity(), "Sign in successful with\nUsername : ${account.displayName}\nEmail : ${account.email}", Toast.LENGTH_SHORT).show()
+                    (activity as AuthActivity).finish()
+                } else {
+                    Toast.makeText(requireActivity(), task.exception.toString(), Toast.LENGTH_SHORT).show()
+                }
         }
     }
 }

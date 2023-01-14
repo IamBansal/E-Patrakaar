@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentOTPVerificationBinding
+import com.example.e_patrakaar.view.activity.AuthActivity
 import com.example.e_patrakaar.view.activity.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
@@ -88,9 +89,12 @@ class OTPVerificationFragment : Fragment() {
         val userOTP = binding.OTPPinView.text.toString().trim()
         val backendOTP = arguments?.getString("otp")
 
+        val dialog = (activity as AuthActivity).setProgressDialog(requireContext(), "Signing you in...")
+
         if (TextUtils.isEmpty(userOTP)) {
             Toast.makeText(requireActivity(), "Please enter OTP first.", Toast.LENGTH_SHORT).show()
         } else {
+            dialog.show()
             val phoneAuthCredential = backendOTP?.let { PhoneAuthProvider.getCredential(it, userOTP) }
             if (phoneAuthCredential != null) {
                 auth.signInWithCredential(phoneAuthCredential)
@@ -102,12 +106,13 @@ class OTPVerificationFragment : Fragment() {
 //                            val profileUpdates = UserProfileChangeRequest.Builder().setDisplayName(name).build()
 //                            user!!.updateProfile(profileUpdates)
 //                            incorrectOTP.visibility = View.GONE
-
+                            dialog.dismiss()
                             startActivity(Intent(requireActivity(), MainActivity::class.java))
                             requireActivity().finish()
 
                         } else {
                             Log.d("check", "Enter correct OTP")
+                            dialog.dismiss()
                             Toast.makeText(requireActivity(), "Enter correct OTP", Toast.LENGTH_SHORT).show()
                         }
                     }

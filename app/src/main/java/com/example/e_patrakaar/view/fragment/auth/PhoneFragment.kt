@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentPhoneBinding
+import com.example.e_patrakaar.view.activity.AuthActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -43,10 +44,12 @@ class PhoneFragment : Fragment() {
     private fun sendOTP() {
         val phoneNumber = binding.etPhone.text.toString().trim()
         val countryCode = binding.etContact.selectedCountryCode.toString().trim()
+        val dialog = (activity as AuthActivity).setProgressDialog(requireContext(), "Requesting OTP...")
 
         if (phoneNumber.isNotEmpty()) {
             if (phoneNumber.length == 10) {
 
+                dialog.show()
                 val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
@@ -55,6 +58,7 @@ class PhoneFragment : Fragment() {
 
                         override fun onVerificationFailed(e: FirebaseException) {
                             Log.w(tag, "onVerificationFailed", e)
+                            dialog.dismiss()
                             Toast.makeText(requireActivity(), e.message, Toast.LENGTH_SHORT).show()
                         }
 
@@ -64,6 +68,7 @@ class PhoneFragment : Fragment() {
                         ) {
                             Log.d(tag, "onCodeSent:$verificationId")
                             val bundle = bundleOf(("otp" to verificationId), ("number" to phoneNumber), ("code" to countryCode))
+                            dialog.dismiss()
                             findNavController().navigate(R.id.action_navigation_phone_to_navigation_otp, bundle)
 
 //                            val intent = Intent(req, OTPVerification::class.java)

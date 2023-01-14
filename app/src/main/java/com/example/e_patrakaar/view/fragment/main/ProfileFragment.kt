@@ -1,6 +1,8 @@
 package com.example.e_patrakaar.view.fragment.main
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.EditText
@@ -22,12 +24,16 @@ import com.example.e_patrakaar.databinding.FragmentProfileBinding
 import com.example.e_patrakaar.model.Collection
 import com.example.e_patrakaar.view.OnItemClickListener
 import com.example.e_patrakaar.view.WrapContentStaggeredGridLayoutManager
+import com.example.e_patrakaar.view.activity.AuthActivity
 import com.example.e_patrakaar.view.activity.MainActivity
 import com.example.e_patrakaar.view.adapter.CollectionAdapter
 import com.example.e_patrakaar.view.adapter.LatestTechAdapter
 import com.example.e_patrakaar.viewmodel.RandomNewsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class ProfileFragment : Fragment(), OnItemClickListener {
 
@@ -38,6 +44,7 @@ class ProfileFragment : Fragment(), OnItemClickListener {
     private lateinit var adapterSavedNews: LatestTechAdapter
     private lateinit var collectionAdapter: CollectionAdapter
     private lateinit var progressBar: ProgressDialog
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +56,8 @@ class ProfileFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         savedNews = ArrayList()
         randomNewsViewModel = ViewModelProvider(this)[RandomNewsViewModel::class.java]
@@ -176,13 +185,30 @@ class ProfileFragment : Fragment(), OnItemClickListener {
             dialog.dismiss()
         }
         view.tvLogout.setOnClickListener {
-            Toast.makeText(requireActivity(), "Logout is requested.", Toast.LENGTH_SHORT).show()
+            logout()
+
             dialog.dismiss()
         }
 
         dialog.setCancelable(true)
         dialog.setContentView(view.root)
         dialog.show()
+    }
+
+    private fun logout() {
+        val alert = AlertDialog.Builder(requireActivity())
+        alert.setTitle("Logout Requested!")
+            .setMessage("You sure you want to logout?")
+            .setPositiveButton("Yes"){_,_->
+                Firebase.auth.signOut()
+//                Toast.makeText(requireActivity(), firebaseAuth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
+                startActivity(Intent(requireActivity(), AuthActivity::class.java))
+//                Toast.makeText(requireActivity(), firebaseAuth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
+//                (activity as MainActivity).finish()
+            }
+            .setNegativeButton("No"){_,_->}
+            .create()
+            .show()
     }
 
     private fun newsDetails(news: Collection) {

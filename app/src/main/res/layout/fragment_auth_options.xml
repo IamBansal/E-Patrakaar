@@ -32,12 +32,14 @@
             android:layout_width="match_parent"
             android:textAllCaps="false"
             android:textSize="18sp"
+            android:textColor="@color/white"
             android:padding="15dp"
             android:layout_height="wrap_content"
             android:text="@string/via_google" />
 
         <Button
             android:id="@+id/btnPhone"
+            android:textColor="@color/white"
             android:backgroundTint="@color/app_color"
             android:layout_width="match_parent"
             android:textAllCaps="false"

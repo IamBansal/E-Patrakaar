@@ -124,6 +124,7 @@
 
         <EditText
             android:id="@+id/etContactCode"
+            android:layout_gravity="center"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
@@ -138,7 +139,7 @@
             android:id="@+id/btnVerify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center"
             android:layout_marginVertical="10dp"
             android:layout_marginStart="5dp"
             android:padding="5dp"
