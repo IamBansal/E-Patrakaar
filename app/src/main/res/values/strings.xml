@@ -35,7 +35,8 @@
     <string name="request_otp">Request OTP</string>
     <string name="by_clicking_i_accept_the_terms_of_service_and_privacy_policy">By clicking, I accept the terms of service and privacy policy.</string>
     <string name="please_enter_the_verification_code_sent_to_you">Please enter the verification code sent to</string>
-    <string name="didn_t_receive_it_retry">Didn\'t receive it? Retry in  </string>
+    <string name="did_n_t_receive_it_retry">Didn\'t receive it? Retry in  </string>
     <string name="submit">Submit</string>
     <string name="enter_phone_number">Enter phone number</string>
+    <string name="phone_number">+%1$s %2$s</string>
 </resources>

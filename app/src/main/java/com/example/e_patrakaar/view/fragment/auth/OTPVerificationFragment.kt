@@ -1,17 +1,21 @@
 package com.example.e_patrakaar.view.fragment.auth
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentOTPVerificationBinding
 import com.example.e_patrakaar.view.activity.MainActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -30,13 +34,35 @@ class OTPVerificationFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
 
-        binding.tvPhone.text = "Please enter the verification code sent to +${arguments?.getString("code")} ${arguments?.getString("number")}"
+        binding.tvPhone.text = getString(R.string.phone_number,
+            arguments?.getString("code").toString(), arguments?.getString("number").toString())
         countdown()
+
+        //For changing the number
+        binding.tvPhone.setOnTouchListener(
+            OnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (event.x >= binding.tvPhone.width - binding.tvPhone.totalPaddingEnd) {
+                    val dialog = AlertDialog.Builder(requireActivity())
+                    dialog.setMessage("You will be re-directed to the previous page.\nYou sure you want to edit the number?")
+                        .setTitle("Edit phone number?")
+                        .setPositiveButton("Yes") { _, _ ->
+                            findNavController().navigateUp()
+                        }
+                        .setNegativeButton("No") { _, _ -> }
+                        .create()
+                        .show()
+                    return@OnTouchListener true
+                }
+            }
+            return@OnTouchListener true
+        })
 
         binding.btnSubmit.setOnClickListener {
             verifyOTP()
@@ -48,7 +74,7 @@ class OTPVerificationFragment : Fragment() {
         object : CountDownTimer(31000, 1000) {
             @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
-                binding.timer.text = "00:${millisUntilFinished / 1000}"
+                binding.timer.text = " 00:${millisUntilFinished / 1000}"
             }
 
             override fun onFinish() {

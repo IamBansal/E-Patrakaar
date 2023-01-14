@@ -21,6 +21,7 @@
         android:text="@string/please_enter_your_phone_number_to_get_a_verification_code" />
 
     <LinearLayout
+        android:background="@drawable/custom_et"
         android:layout_marginHorizontal="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,20 +33,27 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            app:ccpDialog_showFlag="true"
             app:ccp_autoDetectCountry="true"
             app:ccp_showNameCode="false"
             app:ccp_defaultPhoneCode="91"
             tools:ccp_contentColor="#fcfdfd"
             tools:ccp_textSize="20dp" />
 
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="1dp"
+            android:layout_gravity="center"
+            app:dividerColor="@color/black"
+            android:layout_height="35dp" />
+
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
-            android:layout_marginEnd="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:background="@drawable/custom_et"
             android:inputType="phone"
+            android:background="@android:color/transparent"
             android:maxLength="10"
             android:hint="@string/enter_phone_number"
             android:padding="5dp"
