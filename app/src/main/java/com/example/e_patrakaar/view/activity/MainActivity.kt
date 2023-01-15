@@ -7,12 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -23,18 +21,21 @@ import com.example.e_patrakaar.database.notification.NotificationWorker
 import com.example.e_patrakaar.databinding.ActivityMainBinding
 import com.example.e_patrakaar.model.Notification
 import com.example.e_patrakaar.utils.Constants
-import com.example.e_patrakaar.view.fragment.main.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.time.Instant
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private val channelID = "channelID"
-    private val channelName = "channelName"
-    private val notificationId = 0
-    val list : MutableLiveData<List<Notification>> = MutableLiveData()
+    val CHANNEL_ID = "channelID"
+    val CHANNEL_NAME = "channelName"
+    val NOTIFIACTION_ID = 0
+    private lateinit var database: DatabaseReference
 
     lateinit var binding: ActivityMainBinding
 
@@ -43,12 +44,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d("Time" , "create notification called")
+        database = Firebase.database.reference
         createNotificationChannel()
 
 //        val notificationManager = NotificationManagerCompat.from(this)
 //        binding.navView.setOnClickListener {
-//            notificationManager.notify(NOTIFICATION_ID,notification)
+//            notificationManager.notify(NOTIFIACTION_ID,notification)
 //        }
 
         setSupportActionBar(binding.toolbar)
@@ -138,7 +139,6 @@ class MainActivity : AppCompatActivity() {
                 showNotification = false
             }
         }
-
         if (showNotification) {
             createAndShowNotification(greetings)
 
@@ -146,17 +146,17 @@ class MainActivity : AppCompatActivity() {
                 putLong(getString(R.string.greeting_notif_shared_pref_key) , System.currentTimeMillis()).apply()
             }
 
-            val notificationList = NotificationFragment.dummyList()
-            notificationList.add(
-                Notification(R.drawable.cityone , greetings , "Greetings" , "1 min ago")
-            )
-            list.postValue(notificationList)
+            val notification = Notification(R.drawable.cityone, greetings , "Greetings" , "1 min ago")
+            val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+            if(currentUser!=null){
+                database.child("users").child(currentUser).child("notifications").push().setValue(notification)
+            }
         }
     }
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
-            channelID, channelName,
+            CHANNEL_ID, CHANNEL_NAME,
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
             lightColor = Color.GREEN
@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity() {
             getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
         }
 
-        val notification = NotificationCompat.Builder(this, channelID)
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Greetings....")
             .setContentText(content)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))
@@ -205,6 +205,6 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(notificationId, notification)
+        notificationManager.notify(NOTIFIACTION_ID, notification)
     }
 }

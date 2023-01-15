@@ -42,7 +42,7 @@ class CollectionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val collection = list[position]
         holder.text.text = collection.title
-        Glide.with(fragment).load(collection.image).centerCrop().placeholder(R.drawable.add_2)
+        Glide.with(fragment).load(R.drawable.profour).centerCrop().placeholder(R.drawable.add_2)
             .into(holder.image)
         holder.text2.text = collection.description
         holder.card.setOnClickListener {

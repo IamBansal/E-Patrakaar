@@ -34,17 +34,24 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 
 class ProfileFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var list: MutableList<Collection>
     private var savedNews = ArrayList<Collection>()
     private lateinit var randomNewsViewModel: RandomNewsViewModel
     private lateinit var adapterSavedNews: LatestTechAdapter
     private lateinit var collectionAdapter: CollectionAdapter
     private lateinit var progressBar: ProgressDialog
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private var currentUser: String? = null
+    private var collectionHashMap: Map<* , *> = hashMapOf<String , Map<String , String>>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,24 +66,49 @@ class ProfileFragment : Fragment(), OnItemClickListener {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        database = Firebase.database.reference
+        currentUser = FirebaseAuth.getInstance().currentUser?.uid
         savedNews = ArrayList()
         randomNewsViewModel = ViewModelProvider(this)[RandomNewsViewModel::class.java]
         randomNewsViewModel.getNewsFromAPI()
 
         Glide.with(requireActivity()).load(R.drawable.pic).circleCrop().into(binding.ivProfile)
 
-        list = mutableListOf(
-            Collection("Politics", "150 saved posts", R.drawable.protwo),
-            Collection("Sports", "200 saved posts", R.drawable.proone),
-            Collection("Animals and Birds", "4 saved posts", R.drawable.prothree),
-            Collection("Videos", "23 saved posts", R.drawable.profour),
-        )
+        val collectionListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.value !=null){
+                    collectionHashMap = snapshot.value as Map<* , *>
+                }
+                val list = mutableListOf<Collection>()
+                collectionHashMap.forEach { (key, value) ->
+                    val collection = Collection()
+                    val map = value as Map<*, *>
+                    map.forEach{ (key1 , value1) ->
+                        when(key1 as String){
+                            "title" -> collection.title = value1 as String
+                            "description" -> collection.description = value1 as String
+                            "image" -> collection.image = value1
+                        }
+                    }
+                    list.add(collection)
+                }
+                collectionAdapter.setData(list)
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        if(currentUser!=null){
+            database.child("users").child(currentUser!!).child("collections").addValueEventListener(collectionListener)
+        }
         binding.rvSaved.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
         collectionAdapter = CollectionAdapter(
             this@ProfileFragment,
-            list, this
+            mutableListOf(), this
         )
         binding.rvSaved.adapter = collectionAdapter
 
@@ -118,14 +150,14 @@ class ProfileFragment : Fragment(), OnItemClickListener {
                 val random = (0..100).random()
                 if (it.articles.size >= random + 10) {
                     for (i in random..random + 10) {
-//                        val e = it.articles[i]
-//                        savedNews.add(Collection(e.title, e.description, e.urlToImage))
+                        val e = it.articles[i]
+                        savedNews.add(Collection(e.title, e.description, e.urlToImage))
                         adapterSavedNews.setData(savedNews)
                     }
                 } else {
                     for (i in random..random + 1) {
-//                        val e = it.articles[i]
-//                        savedNews.add(Collection(e.title, e.description, e.urlToImage))
+                        val e = it.articles[i]
+                        savedNews.add(Collection(e.title, e.description, e.urlToImage))
                         adapterSavedNews.setData(savedNews)
                     }
                 }
@@ -263,14 +295,23 @@ class ProfileFragment : Fragment(), OnItemClickListener {
 
         btnCreate.setOnClickListener {
             popupWindow.dismiss()
-            list.add(
-                Collection(
+            val collectionName = edtTxtCollectionName.text.toString()
+            var collectionExists = false
+            collectionHashMap.forEach { key, value ->
+                if(key as String == collectionName) {
+                    collectionExists = true
+                    Toast.makeText(context , "Collection already exists" , Toast.LENGTH_SHORT).show()
+                    return@forEach
+                }
+            }
+            if(collectionName != "" && currentUser!=null && !collectionExists){
+                val collection = Collection(
                     edtTxtCollectionName.text.toString(),
                     "50 saved posts",
                     R.drawable.proone
                 )
-            )
-            collectionAdapter.setData(list)
+                database.child("users").child(currentUser!!).child("collections").child(collectionName).setValue(collection)
+            }
         }
         popupWindow.setOnDismissListener {
             binding.fragProf.foreground = null
