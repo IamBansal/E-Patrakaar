@@ -1,6 +1,6 @@
 package com.example.e_patrakaar.model
 
-class Notification(
+data class Notification(
     var image: Any? = null,
     var notificationMessage: String? = null,
     var category: String? = null,

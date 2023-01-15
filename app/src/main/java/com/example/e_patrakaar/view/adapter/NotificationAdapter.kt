@@ -39,7 +39,7 @@ class NotificationAdapter(private val fragment: Fragment, list: List<Notificatio
         val notification = notificationList[position]
         holder.notificationMessage.text = notification.notificationMessage
         holder.categoryNTime.text = "${notification.category}, ${notification.uploadTime}"
-        Glide.with(fragment).load(notification.image).circleCrop()
+        Glide.with(fragment).load(R.drawable.cityfour).circleCrop()
             .placeholder(R.drawable.comment_outline).into(holder.image)
     }
 
