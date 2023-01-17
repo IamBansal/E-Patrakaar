@@ -233,10 +233,8 @@ class ProfileFragment : Fragment(), OnItemClickListener {
             .setMessage("You sure you want to logout?")
             .setPositiveButton("Yes"){_,_->
                 Firebase.auth.signOut()
-//                Toast.makeText(requireActivity(), firebaseAuth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireActivity(), AuthActivity::class.java))
-//                Toast.makeText(requireActivity(), firebaseAuth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
-//                (activity as MainActivity).finish()
+                (activity as MainActivity).finish()
             }
             .setNegativeButton("No"){_,_->}
             .create()

@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
 //        val notificationManager = NotificationManagerCompat.from(this)
 //        binding.navView.setOnClickListener {
-//            notificationManager.notify(NOTIFIACTION_ID,notification)
+//            notificationManager.notify(NOTIFICATION_ID,notification)
 //        }
 
         setSupportActionBar(binding.toolbar)
@@ -105,28 +105,28 @@ class MainActivity : AppCompatActivity() {
         var showNotification = true
         var greetings = "Hello user"
 
-        // morning
+        // Morning
         if((currentHour>6 || currentHour == 6) && currentHour < 12){
             greetings = getString(R.string.notification_greeting_morning)
             if((storedTimeHour>6 || storedTimeHour == 6) && storedTimeHour < 12){
                 showNotification = false
             }
         }
-        // afternoon
+        // Afternoon
         else if((currentHour>12 || currentHour == 12) && currentHour < 16){
             greetings = getString(R.string.notification_greeting_afternooon)
             if((storedTimeHour>12 || storedTimeHour == 12) && storedTimeHour < 16){
                 showNotification = false
             }
         }
-        // evening
+        // Evening
         else if((currentHour>16 || currentHour == 16) && currentHour < 21){
             greetings = getString(R.string.notification_greeting_evening)
             if((storedTimeHour>16 || storedTimeHour == 16) && storedTimeHour < 21){
                 showNotification = false
             }
         }
-        // night check
+        // Night Check
         else if(
             ((currentHour>21 || currentHour == 21) && currentHour < 24) ||
             ((currentHour > 0 || currentHour == 0)&& currentHour < 6)
