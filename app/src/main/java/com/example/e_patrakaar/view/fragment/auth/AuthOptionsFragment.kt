@@ -3,6 +3,7 @@ package com.example.e_patrakaar.view.fragment.auth
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentAuthOptionsBinding
+import com.example.e_patrakaar.utils.Constants.TAG
 import com.example.e_patrakaar.view.activity.AuthActivity
 import com.example.e_patrakaar.view.activity.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -59,6 +61,38 @@ class AuthOptionsFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_options_to_navigation_phone)
         }
 
+        binding.tvSkip.setOnClickListener {
+            guestLogin()
+        }
+
+    }
+
+    private fun guestLogin() {
+
+        val alert = AlertDialog.Builder(requireContext())
+        alert.setTitle("Guest Login")
+            .setMessage("You are exploring as a guest, this account will be valid for 30 days from now.")
+            .setPositiveButton("Continue as a guest"){_,_->
+
+                val dialog = (activity as AuthActivity).setProgressDialog(requireContext(), "Signing you in...")
+                dialog.show()
+
+                auth.signInAnonymously().addOnCompleteListener(requireActivity()) { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "signInAnonymously:success")
+                        dialog.dismiss()
+                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                        (activity as AuthActivity).finish()
+                    } else {
+                        Log.w(TAG, "signInAnonymously:failure", task.exception)
+                        Toast.makeText(requireActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                }
+            }
+            .setNegativeButton("Cancel"){_,_->}
+            .create()
+            .show()
     }
 
     private fun loginWithGoogle() {
@@ -98,6 +132,7 @@ class AuthOptionsFragment : Fragment() {
                     (activity as AuthActivity).finish()
                 } else {
                     Toast.makeText(requireActivity(), task.exception.toString(), Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
                 }
         }
     }
