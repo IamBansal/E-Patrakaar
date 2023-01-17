@@ -1,7 +1,6 @@
 package com.example.e_patrakaar.view.activity
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -13,20 +12,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.e_patrakaar.R
-import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (FirebaseAuth.getInstance().currentUser!= null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
     }
 
     fun setProgressDialog(context: Context, message:String): AlertDialog {
