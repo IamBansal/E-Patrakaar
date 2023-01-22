@@ -32,6 +32,7 @@ import com.example.e_patrakaar.viewmodel.RandomNewsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.database.DataSnapshot
@@ -50,7 +51,7 @@ class ProfileFragment : Fragment(), OnItemClickListener {
     private lateinit var progressBar: ProgressDialog
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private var currentUser: String? = null
+    private var currentUser: FirebaseUser? = null
     private var collectionHashMap: Map<* , *> = hashMapOf<String , Map<String , String>>()
 
     override fun onCreateView(
@@ -67,11 +68,14 @@ class ProfileFragment : Fragment(), OnItemClickListener {
         firebaseAuth = FirebaseAuth.getInstance()
 
         database = Firebase.database.reference
-        currentUser = FirebaseAuth.getInstance().currentUser?.uid
+        currentUser = Firebase.auth.currentUser
         savedNews = ArrayList()
         randomNewsViewModel = ViewModelProvider(this)[RandomNewsViewModel::class.java]
         randomNewsViewModel.getNewsFromAPI()
 
+        if(currentUser!=null && currentUser!!.isAnonymous) {
+            binding.btnNewCollection.visibility = View.INVISIBLE
+        }
         Glide.with(requireActivity()).load(R.drawable.pic).circleCrop().into(binding.ivProfile)
 
         val collectionListener = object : ValueEventListener{
@@ -102,7 +106,7 @@ class ProfileFragment : Fragment(), OnItemClickListener {
         }
 
         if(currentUser!=null){
-            database.child("users").child(currentUser!!).child("collections").addValueEventListener(collectionListener)
+            database.child("users").child(currentUser!!.uid).child("collections").addValueEventListener(collectionListener)
         }
         binding.rvSaved.layoutManager =
             WrapContentStaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL)
@@ -308,7 +312,7 @@ class ProfileFragment : Fragment(), OnItemClickListener {
                     "50 saved posts",
                     R.drawable.proone
                 )
-                database.child("users").child(currentUser!!).child("collections").child(collectionName).setValue(collection)
+                database.child("users").child(currentUser!!.uid).child("collections").child(collectionName).setValue(collection)
             }
         }
         popupWindow.setOnDismissListener {

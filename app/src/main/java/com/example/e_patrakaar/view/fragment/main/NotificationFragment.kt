@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.e_patrakaar.R
 import com.example.e_patrakaar.databinding.FragmentNotificationBinding
 import com.example.e_patrakaar.model.Notification
 import com.example.e_patrakaar.view.adapter.NotificationAdapter
@@ -48,22 +47,24 @@ class NotificationFragment : Fragment() {
 
         val notificationValueEventListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val notificationList = mutableListOf<Notification>()
-                val list = snapshot.value as Map<*, *>
-                list.forEach { (key , value) ->
-                    val hashmap = value as Map<* , *>
-                    val notification = Notification()
-                    hashmap.forEach { (key1, value1) ->
-                        when(key1 as String){
-                            "image" -> notification.image = value1
-                            "notificationMessage" -> notification.notificationMessage = value1 as String
-                            "category" -> notification.category = value1 as String
-                            "uploadTime" -> notification.uploadTime = value1 as String
+                if(snapshot.value != null){
+                    val notificationList = mutableListOf<Notification>()
+                    val list = snapshot.value as Map<*, *>
+                    list.forEach { (key , value) ->
+                        val hashmap = value as Map<* , *>
+                        val notification = Notification()
+                        hashmap.forEach { (key1, value1) ->
+                            when(key1 as String){
+                                "image" -> notification.image = value1
+                                "notificationMessage" -> notification.notificationMessage = value1 as String
+                                "category" -> notification.category = value1 as String
+                                "uploadTime" -> notification.uploadTime = value1 as String
+                            }
                         }
+                        notificationList.add(notification)
                     }
-                    notificationList.add(notification)
+                    adapter.setData(notificationList)
                 }
-                adapter.setData(notificationList)
             }
 
             override fun onCancelled(error: DatabaseError) {
