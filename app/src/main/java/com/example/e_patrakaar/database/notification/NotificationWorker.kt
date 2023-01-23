@@ -18,11 +18,20 @@ import androidx.core.content.ContextCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.e_patrakaar.R
+import com.example.e_patrakaar.model.Notification
 import com.example.e_patrakaar.utils.Constants
 import com.example.e_patrakaar.view.activity.MainActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
+
+    private lateinit var database: DatabaseReference
 
     override fun doWork(): Result {
         sendNotification()
@@ -86,8 +95,23 @@ class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
 
         Log.d("error1", "checked")
         notificationManager.notify(notificationId, notification.build())
-
         Log.d("error1", "failed")
+
+        var currentUser = Firebase.auth.currentUser
+        database = Firebase.database.reference
+        val listener = FirebaseAuth.AuthStateListener {
+            currentUser = it.currentUser
+        }
+
+        if(currentUser != null && currentUser!!.isAnonymous){
+            val checkOutNotification = Notification(
+                R.drawable.cityone,
+                "Checkout this new news" ,
+                "Suggestion" ,
+                "1 min ago"
+            )
+            database.child("users").child(currentUser!!.uid).child("notifications").push().setValue(checkOutNotification)
+        }
     }
 
     //Convert vector to bitmap
